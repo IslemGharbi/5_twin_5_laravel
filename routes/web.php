@@ -18,7 +18,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CheckoutController;
-
+use App\Http\Controllers\ReclamationController;
 
 
 /*
@@ -112,3 +112,14 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/employment/store', [Empl
     Route::middleware(['auth:sanctum', 'verified'])->get('/admin', [CategoryController::class, 'index'])->name('dashboard');
     Route::middleware(['auth:sanctum', 'verified'])->post('/category/store', [CategoryController::class, 'store'])->name('category.store');
     Route::middleware(['auth:sanctum', 'verified'])->post('/sub_category/store', [SubCategoryController::class, 'store'])->name('sub_category.store');
+
+
+//reclamation routes 
+
+Route::get('/reclamations', [ReclamationController::class, 'index'])->name('reclamations.index');
+Route::get('/reclamations/create', [ReclamationController::class, 'create'])->name('reclamations.create');
+Route::post('/reclamations', [ReclamationController::class, 'store'])->name('reclamations.store');
+Route::get('/reclamations/{id}', [ReclamationController::class, 'show'])->name('reclamations.show');
+Route::get('/reclamations/{id}/edit', [ReclamationController::class, 'edit'])->name('reclamations.edit');
+Route::put('/reclamations/{id}', [ReclamationController::class, 'update'])->name('reclamations.update');
+Route::delete('/reclamations/{id}', [ReclamationController::class, 'destroy'])->name('reclamations.destroy');
