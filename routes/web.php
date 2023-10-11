@@ -18,6 +18,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\NotesController;
+
 
 
 
@@ -75,6 +77,14 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/gig/edit/{id}', [GigContr
 Route::middleware(['auth:sanctum', 'verified'])->put('/gig/update/{id}', [GigController::class, 'update'])->name('gig.update');
 Route::middleware(['auth:sanctum', 'verified'])->get('/gig/delete/{id}', [GigController::class, 'destroy'])->name('gig.delete');
 
+
+//NOTES ROUTE
+Route::post('/notes', [NotesController::class, 'store'])->name('notes.store');
+
+
+
+
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/order/list', [OrderController::class, 'index'])->name('order.list');
 Route::middleware(['auth:sanctum', 'verified'])->get('/order/create/{id}', [OrderController::class, 'create'])->name('order.create');
 Route::middleware(['auth:sanctum', 'verified'])->post('/order/store', [OrderController::class, 'store'])->name('order.store');
@@ -112,3 +122,7 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/employment/store', [Empl
     Route::middleware(['auth:sanctum', 'verified'])->get('/admin', [CategoryController::class, 'index'])->name('dashboard');
     Route::middleware(['auth:sanctum', 'verified'])->post('/category/store', [CategoryController::class, 'store'])->name('category.store');
     Route::middleware(['auth:sanctum', 'verified'])->post('/sub_category/store', [SubCategoryController::class, 'store'])->name('sub_category.store');
+    
+    Route::get('/notes', function () {
+        return view('notes');
+    })->name('notes');

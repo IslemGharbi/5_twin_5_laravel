@@ -46,6 +46,11 @@
                                     </div>
                                 </li>
                             @endif
+                            @if (Auth::user())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('notes') }}">notes</a>
+                            </li>
+                            @endif
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('about') }}">About Us</a>
                             </li>
