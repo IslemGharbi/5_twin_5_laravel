@@ -116,10 +116,11 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/employment/store', [Empl
 
 //reclamation routes 
 
-Route::get('/reclamations', [ReclamationController::class, 'index'])->name('reclamations.index');
-Route::get('/reclamations/create', [ReclamationController::class, 'create'])->name('reclamations.create');
-Route::post('/reclamations', [ReclamationController::class, 'store'])->name('reclamations.store');
-Route::get('/reclamations/{id}', [ReclamationController::class, 'show'])->name('reclamations.show');
-Route::get('/reclamations/{id}/edit', [ReclamationController::class, 'edit'])->name('reclamations.edit');
-Route::put('/reclamations/{id}', [ReclamationController::class, 'update'])->name('reclamations.update');
-Route::delete('/reclamations/{id}', [ReclamationController::class, 'destroy'])->name('reclamations.destroy');
+Route::get('/reclamations', [ReclamationController::class, 'listReclamations'])->name('reclamationsindex');
+Route::get('/reclamations/create', [ReclamationController::class, 'create'])->name('reclamationscreate');
+Route::middleware(['auth'])->post('/reclamations', [ReclamationController::class, 'store'])->name('reclamations.store');
+Route::delete('/reclamations/{id}',  [ReclamationController::class, 'destroy'])->name('reclamation.destroy');
+Route::get('/reclamations/{id}/edit', [ReclamationController::class, 'edit'])->name('reclamationsedit');
+Route::put('/reclamations/{id}',  [ReclamationController::class, 'update'])->name('reclamations.update');
+
+

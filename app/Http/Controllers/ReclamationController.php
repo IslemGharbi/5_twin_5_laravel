@@ -4,65 +4,83 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reclamation;
+use Illuminate\Support\Facades\Auth;
+
 
 class ReclamationController extends Controller
 {
-    // Afficher la liste des réclamations
-    public function index()
-    {
-        $reclamations = Reclamation::all();
-        return view('reclamations.index', compact('reclamations'));
-    }
+
+
+   
+
 
     // Afficher le formulaire de création de réclamation
     public function create()
     {
-        return view('reclamations.create');
+        return view('reclamationscreate');
     }
+
 
     // Enregistrer une nouvelle réclamation
     public function store(Request $request)
     {
         $reclamation = new Reclamation;
         $reclamation->description = $request->input('description');
-        $reclamation->user_id = Auth::user()->id; // Associez la réclamation à l'utilisateur connecté
+        $reclamation->user_id = Auth::user()->id; 
         $reclamation->save();
 
-        return redirect()->route('reclamations.index');
+        return redirect()->route('reclamationsindex');
     }
 
-    // Afficher une réclamation spécifique avec ses réponses
-    public function show($id)
+
+    //afficher les reclamations de user connecte 
+
+    public function listReclamations()
     {
-        $reclamation = Reclamation::with('reponses')->find($id);
-        return view('reclamations.show', compact('reclamation'));
+        $reclamations = auth()->user()->reclamations;
+    
+        return view('reclamationsindex', compact('reclamations'));
     }
-
-    // Afficher le formulaire d'édition de réclamation
-    public function edit($id)
-    {
-        $reclamation = Reclamation::find($id);
-        return view('reclamations.edit', compact('reclamation'));
-    }
-
-    // Mettre à jour une réclamation
-    public function update(Request $request, $id)
-    {
-        $reclamation = Reclamation::find($id);
-        $reclamation->description = $request->input('description');
-        $reclamation->save();
-
-        return redirect()->route('reclamations.index');
-    }
-
-    // Supprimer une réclamation
+    
+    //supprimer une reclamation
     public function destroy($id)
-    {
-        $reclamation = Reclamation::find($id);
-        $reclamation->delete();
+{
+    $reclamation = Reclamation::findOrFail($id);
+    $reclamation->delete();
+    return redirect()->route('reclamationsindex')->with('success', 'Réclamation supprimée avec succès.');
+}
 
-        return redirect()->route('reclamations.index');
-    }
+
+//update reclamation
+
+public function edit($id)
+{
+    $reclamation = Reclamation::find($id);
+    return view('reclamationsedit', compact('reclamation'));
+}
+
+public function update(Request $request, $id)
+{
+    // Valider les données du formulaire
+    $this->validate($request, [
+        'description' => 'required',
+    ]);
+
+    // Mettre à jour la réclamation
+    $reclamation = Reclamation::find($id);
+    $reclamation->description = $request->input('description');
+    // Mettre à jour d'autres champs au besoin
+
+    $reclamation->save();
+
+    return redirect()->route('reclamationsindex')->with('success', 'Réclamation mise à jour avec succès.');
+}
+
+
+
+
+
+
 }
 
 
