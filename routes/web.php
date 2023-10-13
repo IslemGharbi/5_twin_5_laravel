@@ -124,3 +124,10 @@ Route::get('/reclamations/{id}/edit', [ReclamationController::class, 'edit'])->n
 Route::put('/reclamations/{id}',  [ReclamationController::class, 'update'])->name('reclamations.update');
 
 
+//responces routes
+Route::get('/responses/{reclamationId}/', [ReclamationController::class, 'showResponses'])->name('responsesshow');
+
+
+
+
+

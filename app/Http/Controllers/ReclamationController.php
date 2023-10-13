@@ -76,6 +76,16 @@ public function update(Request $request, $id)
     return redirect()->route('reclamationsindex')->with('success', 'Réclamation mise à jour avec succès.');
 }
 
+// afficher les reponses d'une reclamation 
+
+public function showResponses($reclamationId)
+{
+    $reclamation = Reclamation::find($reclamationId);
+    $responses = $reclamation->reponses; 
+
+    return view('responsesshow', compact('reclamation', 'responses'));
+}
+
 
 
 

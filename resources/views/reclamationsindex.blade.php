@@ -39,18 +39,24 @@
                         @if (count($reclamations) > 0)
                             <ul>
                             @foreach ($reclamations as $reclamation)
-                            <div class="card mb-3">
-                                <div class="card-body">
+                            <div class="card mb-3 " style="border: 1px solid #000;">
+                                <div class="card-body ">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
                                             <p class="card-title">{{$reclamation->created_at->format('d/m/Y H:i') }}</p>
+                                            <h2 class="card-title lead"><strong>{{$reclamation->user->name }}</strong></h2>
                                             <h1 class="card-body lead">{{$reclamation->description }}</h1>
                                         </div>
                                        
                                     </div>
 
                                     <div class="reclamation-actions text-right">
-                                        <button><i class="fa fa-caret-down" aria-hidden="true"></i>  Réponses</button>
+                                        <!-- <form action="" method="GET" class="d-inline">
+                                            <button type="submit" >
+                                                <i class="fa fa-caret-down" aria-hidden="true"></i>  Réponses
+                                            </button>
+                                        </form> -->
+
 
                                         <form action="{{ route('reclamationsedit', $reclamation->id) }}" method="GET" class="d-inline">
                                             <button type="submit">
@@ -67,18 +73,25 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="card mb-3"  >
+                                @if ($reclamation->reponses->count() > 0)
+                                    <h3>Réponses:</h3>
+                                    <ul>
+                                        @foreach ($reclamation->reponses as $response)
+                                        <li >                                       
+                                              <i class="fa fa-chevron-circle-right" aria-hidden="true"></i> {{ $response->content }}
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <p>Aucune réponse trouvée.</p>
+                                @endif
+                            </div>
+                       
 
-
-                                    <!-- <form action="" method="POST">
-                                            @csrf
-                                            <div class="form-group">
-                                                <textarea name="comment_text" placeholder="Ajouter une reponse..." class="form-control"></textarea>
-                                                <button type="submit" class="float-right"><i class="fa fa-plus-square" aria-hidden="true"> repondre</i></button>
-
-                                            </div>
-                                        </form> -->
+                                 
                                 @endforeach
-
+                                       
                             </ul>
                         @else
                             <p>Aucune réclamation trouvée.</p>
@@ -87,5 +100,16 @@
             </div>
         </div>
     </section>
+ 
 
 @endsection
+
+
+     <!-- <form action="" method="POST">
+                                            @csrf
+                                            <div class="form-group">
+                                                <textarea name="comment_text" placeholder="Ajouter une reponse..." class="form-control"></textarea>
+                                                <button type="submit" class="float-right"><i class="fa fa-plus-square" aria-hidden="true"> repondre</i></button>
+
+                                            </div>
+                            </form> -->
