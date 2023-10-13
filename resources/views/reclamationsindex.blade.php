@@ -39,30 +39,44 @@
                         @if (count($reclamations) > 0)
                             <ul>
                             @foreach ($reclamations as $reclamation)
-                                    <div class="card mb-3">
-                                        <div class="card-body">
-                                        <h4 class="card-title">{{$reclamation->created_at->format('d/m/Y H:i') }}</h4>
-                                        <p class="card-title lead">{{$reclamation->description }}</p>
-
-                                            <div class="reclamation-actions text-right">
-                                            <form action="{{ route('reclamationsedit', $reclamation->id) }}" method="GET" class="d-inline">
-                                                    <button type="submit">
-                                                        <i class="fa fa-pencil"></i> 
-                                                    </button>
-                                                </form>
-                                            <form action="{{ route('reclamation.destroy', $reclamation->id) }}" method="POST" class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit">
-                                                    <i class="fa fa-trash"></i> 
-                                                </button>
-                                            </form>
-
-
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <p class="card-title">{{$reclamation->created_at->format('d/m/Y H:i') }}</p>
+                                            <h1 class="card-body lead">{{$reclamation->description }}</h1>
                                         </div>
-
-                                        </div>
+                                       
                                     </div>
+
+                                    <div class="reclamation-actions text-right">
+                                        <button><i class="fa fa-caret-down" aria-hidden="true"></i>  Réponses</button>
+
+                                        <form action="{{ route('reclamationsedit', $reclamation->id) }}" method="GET" class="d-inline">
+                                            <button type="submit">
+                                                <i class="fa fa-pencil"></i> 
+                                            </button>
+                                        </form>
+                                        <form action="{{ route('reclamation.destroy', $reclamation->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit">
+                                                <i class="fa fa-trash"></i> 
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                                    <!-- <form action="" method="POST">
+                                            @csrf
+                                            <div class="form-group">
+                                                <textarea name="comment_text" placeholder="Ajouter une reponse..." class="form-control"></textarea>
+                                                <button type="submit" class="float-right"><i class="fa fa-plus-square" aria-hidden="true"> repondre</i></button>
+
+                                            </div>
+                                        </form> -->
                                 @endforeach
 
                             </ul>
