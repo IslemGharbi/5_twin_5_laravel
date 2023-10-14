@@ -89,28 +89,26 @@
             </div>
             <div class="modal-body">
                 <!-- Add Notes Form -->
-                <form>
+                <form method="POST" action="{{ route('notes.store') }}" enctype="multipart/form-data">
+                    @csrf 
                     <div class="form-group">
                         <label for="picture" style="color: #5672f9;">Picture</label>
-                        <input type="file" class="form-control" id="picture">
+                        <input type="file" class="form-control" name="picture" id="picture">
                     </div>
                     <div class="form-group">
                         <label for="subject" style="color: #5672f9;">Subject</label>
-                        <input type="text" class="form-control" id="subject" placeholder="Enter the subject" required>
+                        <input type="text" class="form-control" name="subject" id="subject" placeholder="Enter the subject" required>
                     </div>
                     <div class="form-group">
                         <label for="details" style="color: #5672f9;">Details</label>
-                        <textarea class="form-control" id="details" rows="4" placeholder="Enter the details"></textarea>
+                        <textarea class="form-control" name="details" id="details" rows="4" placeholder="Enter the details"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="deadline" style="color: #5672f9;">Deadline</label>
-                        <input type="date" class="form-control" id="deadline">
+                        <input type="date" class="form-control" name="deadline" id="deadline">
                     </div>
+                    <button type="submit" class="btn btn-light" style="color: #5672f9;">Save</button>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-light" style="color: #5672f9;">Save</button>
             </div>
         </div>
     </div>
@@ -127,25 +125,38 @@
 <div class="row">
 <div class="col-lg-8 col-md-12">
 <div class="row blog-grid-row">
-<div class="col-md-6 col-sm-12">
-
-<div class="blog grid-blog">
-<div class="blog-image">
-<a href="blog-details.html"><img class="img-fluid" src="assets/img/blog/blog-01.jpg" alt="Post Image"></a>
-</div>
-<div class="blog-content">
-<ul class="entry-meta meta-item">
-<li>
-<div class="post-author">
-<a href="developer-details.html"><img src="assets/img/img-02.jpg" alt="Post Author"> <span> David Lee</span></a>
-</div>
-</li>
-<li><i class="far fa-clock"></i> 4 Apr 2021</li>
-</ul>
-<h3 class="blog-title"><a href="blog-details.html">Your next job starts right here</a></h3>
-<p class="mb-0">Lorem ipsum dolor sit amet, consectetur em adipiscing elit, sed do eiusmod tempor.</p>
-</div>
-</div>
+<div class="col-md-6 col-sm-12"> 
+   @csrf
+        @foreach($notes as $note)
+    <div class="blog grid-blog">
+        
+            <div class="blog-image">
+                <img class="img-fluid" src="assets/img/blog/blog-01.jpg" alt="Post Image">
+            </div>
+            <div class="blog-content">
+                <ul class="entry-meta meta-item">
+                    <li>
+                        <div class="post-author">
+                            <img src="assets/img/img-02.jpg" alt="Post Author">
+                            <span>{{ $note->deadline }}</span>
+                        </div>
+                    </li>
+                    <li><i class="far fa-clock"></i> {{ $note->created_at }}</li>
+                </ul>
+                <h3 class="blog-title">{{ $note->subject }}</h3>
+                <p class="mb-0">{{ $note->details }}</p>
+            </div>
+        
+    </div>
+    @endforeach
+    
+    
+    
+    
+    
+    
+    
+    
 
 </div>
 

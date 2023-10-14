@@ -22,7 +22,6 @@ use App\Http\Controllers\NotesController;
 
 
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,9 +32,12 @@ use App\Http\Controllers\NotesController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//note routes 
+Route::middleware(['auth:sanctum', 'verified'])->post('/notes/store', [NotesController::class, 'store'])->name('notes.store');
+Route::get('/notes', [NotesController::class, 'index'])->name('notes');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/checkout/{id}txn{amount}', [CheckoutController::class, 'checkout'])->name('checkout.new');
-Route::middleware(['auth:sanctum', 'verified'])->post('/checkout/', [CheckoutController::class, 'afterpayment'])->name('checkout.credit-card');
+Route::post('/checkout/', [CheckoutController::class, 'afterpayment'])->name('checkout.credit-card');
 
 
 // Route::get('/pay', function () {
@@ -78,8 +80,7 @@ Route::middleware(['auth:sanctum', 'verified'])->put('/gig/update/{id}', [GigCon
 Route::middleware(['auth:sanctum', 'verified'])->get('/gig/delete/{id}', [GigController::class, 'destroy'])->name('gig.delete');
 
 
-//NOTES ROUTE
-Route::post('/notes', [NotesController::class, 'store'])->name('notes.store');
+
 
 
 
@@ -123,6 +124,4 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/employment/store', [Empl
     Route::middleware(['auth:sanctum', 'verified'])->post('/category/store', [CategoryController::class, 'store'])->name('category.store');
     Route::middleware(['auth:sanctum', 'verified'])->post('/sub_category/store', [SubCategoryController::class, 'store'])->name('sub_category.store');
     
-    Route::get('/notes', function () {
-        return view('notes');
-    })->name('notes');
+ 
