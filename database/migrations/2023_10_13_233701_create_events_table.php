@@ -13,19 +13,18 @@ class CreateEventsTable extends Migration
      */
   // database/migrations/xxxx_xx_xx_create_events_table.php
 
-public function up()
-{
-    Schema::create('events', function (Blueprint $table) {
-        $table->id();
-        $table->string('title');
-        $table->text('description');
-        $table->dateTime('start_date');
-        $table->dateTime('end_date');
-        $table->string('location');
-        $table->json('task')->nullable(); // Colonne pour stocker les données de la tâche
-        $table->timestamps();
-    });
-}
+  public function up()
+  {
+      Schema::create('events', function (Blueprint $table) {
+          $table->id();
+          $table->string('title');
+          $table->text('description');
+          $table->dateTime('start_date');
+          $table->dateTime('end_date');
+          $table->string('location');
+          $table->timestamps();
+      });
+  }
 
     
 

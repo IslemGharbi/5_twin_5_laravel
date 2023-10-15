@@ -12,10 +12,9 @@ protected $fillable = ['title', 'description', 'start_date', 'end_date', 'locati
 
 public function tasks()
 {
-    return collect(json_decode($this->task))->map(function ($task) {
-        return new Task((array) $task);
-    });
+    return $this->belongsToMany(Task::class, 'event_task', 'event_id', 'task_id');
 }
+
     public function participants()
     {
         return $this->belongsToMany(User::class, 'event_user', 'event_id', 'user_id');

@@ -7,9 +7,11 @@ class Task extends Model
 {
     protected $fillable = ['description', 'due_date', 'status', 'priority'];
 
-    public function event()
+    public function events()
     {
-        return $this->belongsTo(Event::class, 'event_id');
+        return $this->belongsToMany(Event::class, 'event_task', 'task_id', 'event_id');
     }
     
 }
+
+

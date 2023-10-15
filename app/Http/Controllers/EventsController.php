@@ -13,45 +13,40 @@ class EventsController extends Controller
         return view('events.index', compact('events'));
     }
 
+  
     public function create()
-    {
-        return view('events.create');
-    }
+{
+    $tasks = Task::all();
+    return view('events.create', compact('tasks'));
+}
+public function store(Request $request)
+{
+    $eventData = $request->validate([
+        'title' => 'required',
+        'description' => 'required',
+        'start_date' => 'required',
+        'end_date' => 'required',
+        'location' => 'required',
+    ]);
 
-    
-    public function store(Request $request)
-    {
-        // Valider les données du formulaire pour l'événement
-        $eventData = $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'location' => 'required',
+    $event = Event::create($eventData);
+
+    if ($request->has('task')) {
+        // Créez la tâche associée à l'événement
+        $task = new Task([
+            'description' => $request->input('task'),
+            // Ajoutez d'autres champs de la tâche ici
         ]);
-    
-        // Créer l'événement
-        $event = Event::create($eventData);
-    
-        // Vérifier si des tâches ont été soumises
-        if ($request->has('tasks') && is_array($request->input('tasks'))) {
-            foreach ($request->input('tasks') as $taskData) {
-                // Créez chaque tâche avec un tableau d'attributs
-                $task = new Task([
-                    'description' => $taskData['description'],
-                    'due_date' => $taskData['due_date'],
-                    'status' => $taskData['status'],
-                    'priority' => $taskData['priority'],
-                ]);
-                $task->event_id = $event->id; // Associez la tâche à l'événement
-                $task->save(); // Enregistrez la tâche
-            }
-        }
-    
-        return redirect()->route('events.index');
-    }
-    
 
+        $event->tasks()->save($task);
+    }
+
+    return redirect()->route('events.index');
+}
+
+
+    
+    
     public function show(Event $event)
     {
         return view('events.show', compact('event'));
