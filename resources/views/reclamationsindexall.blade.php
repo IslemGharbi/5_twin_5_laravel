@@ -11,16 +11,12 @@
                 <div class="col-md-8 offset-md-2 text-center">
                     
                     <!-- Title text -->
-                    <h3>Mes Réclamations</h3>
+                    <h3>Les Réclamations</h3>
 
                 </div>
 
                 <div class="col-md-2 text-right ">
-            <div class="border p-2  ">
-                <a class="nav-link" href="{{ route('reclamationscreate') }}">
-                <i class="fa fa-pencil-square-o "> Ajouter une réclamation</i> 
-                </a>
-            </div>
+
         </div>
             </div>
         </div>
@@ -47,42 +43,70 @@
                                             <h2 class="card-title lead"><strong>{{$reclamation->user->name }}</strong></h2>
                                             <h1 class="card-body lead">{{$reclamation->description }}</h1>
                                         </div>
-                                       
+ 
                                     </div>
 
                                     <div class="reclamation-actions text-right">
-                   
-                                        <form action="{{ route('reclamationsedit', $reclamation->id) }}" method="GET" class="d-inline">
+                                    <form action="{{ route('responsescreate' , ['Reclamationid' => $reclamation->id])}}" method="GET" class="d-inline">
                                             <button type="submit"  style="background-color: #2c75ff ; color: white;">
-                                                <i class="fa fa-pencil" > modifier</i> 
+                                                <i class="fa fa-comment-o" > repondre</i> 
                                             </button>
                                         </form>
-                                        <form action="{{ route('reclamation.destroy', $reclamation->id) }}" method="POST" class="d-inline">
+                                       
+                                   
+                                        <form action="{{ route('reclamation.Adestroy', $reclamation->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit"  style="background-color: #2c75ff ; color: white;">
+                                            <button type="submit"style="background-color: #2c75ff ; color: white;">
                                                 <i class="fa fa-trash"> supprimer</i> 
                                             </button>
                                         </form>
+
                                     </div>
                                 </div>
                             </div>
+
                             <div class="card mb-3"  >
                                 <div class="card-body ">
                                 @if ($reclamation->reponses->count() > 0)
                                     <h3>Réponses:</h3>
                                     <ul>
                                         @foreach ($reclamation->reponses as $response)
-                                        <li class="card" >                                       
+                                        <li class="card">                                       
                                                 <div class="card-body">{{ $response->content }}</div>
-                                        </li>
-                                        <br>
+                                                <div class="reclamation-actions text-right">
 
+                                                <form action="{{ route('reponsesedit', ['Reclamationid' => $reclamation->id, 'id' => $response->id]) }}" method="GET" class="d-inline">
+                                                    <button type="submit">
+                                                        <i class="fa fa-pencil"></i> 
+                                                    </button>
+                                                </form>
+
+                                                    <form action="{{ route('reponses.destroy', $response->id) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit">
+                                                            <i class="fa fa-trash"></i> 
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                        </li>
+                                        <br> 
                                         @endforeach
+  
                                     </ul>
                                 @else
                                     <p>Aucune réponse trouvée.</p>
                                 @endif
+                                <!-- <br> 
+                                <form action="" method="POST">
+                                            @csrf
+                                            <div class="form-group">
+                                                <textarea name="comment_text" placeholder="Ajouter une reponse..." class="form-control"></textarea>
+                                                <button type="submit" class="float-right" style="background-color: blue ; color: white;"><i class="fa fa-plus-square" aria-hidden="true"> repondre</i></button>
+                                          
+                                            </div>
+                                        </form> -->
                                 </div>
                             </div>
                        
@@ -103,3 +127,4 @@
 @endsection
 
 
+   

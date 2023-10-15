@@ -122,10 +122,17 @@ Route::middleware(['auth'])->post('/reclamations', [ReclamationController::class
 Route::delete('/reclamations/{id}',  [ReclamationController::class, 'destroy'])->name('reclamation.destroy');
 Route::get('/reclamations/{id}/edit', [ReclamationController::class, 'edit'])->name('reclamationsedit');
 Route::put('/reclamations/{id}',  [ReclamationController::class, 'update'])->name('reclamations.update');
+Route::get('admin/reclamations', [ReclamationController::class, 'toutelistReclamations'])->name('reclamationsindexall');
+Route::delete('admin/reclamations/{id}',  [ReclamationController::class, 'Adestroy'])->name('reclamation.Adestroy');
 
 
 //responces routes
-Route::get('/responses/{reclamationId}/', [ReclamationController::class, 'showResponses'])->name('responsesshow');
+Route::get('/{Reclamationid}/reponses/create', [ReclamationController::class, 'createR'])->name('responsescreate');
+Route::post('/reclamations/{Reclamationid}/reponses', [ReclamationController::class, 'storeR'])->name('reponses.store');
+Route::delete('/reponses/{idReponse}', [ReclamationController::class, 'destroyR'])->name('reponses.destroy');
+Route::get('/reclamations/{Reclamationid}/reponses/{id}/edit', [ReclamationController::class, 'editR'])->name('reponsesedit');
+Route::put('/reclamations/{Reclamationid}/reponses/{id}', [ReclamationController::class, 'updateR'])->name('reponses.update');
+
 
 
 
