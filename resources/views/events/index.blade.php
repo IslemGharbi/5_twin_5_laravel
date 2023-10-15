@@ -22,14 +22,21 @@
                     <td>{{ $event->end_date }}</td>
                     <td>{{ $event->location }}</td>
                     <td>
-                        <a href="{{ route('events.show', ['event' => $event]) }}" class="btn btn-info">Voir</a>
-                        <a href="{{ route('events.edit', ['event' => $event]) }}" class="btn btn-primary">Modifier</a>
-                        
-                        <form method="POST" action="{{ route('events.destroy', ['event' => $event]) }}" style="display: inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Supprimer</button>
-                        </form>
+                        <div>
+                            <a href="{{ route('events.show', ['event' => $event]) }}">
+                                <i class="fa fa-eye"></i> <!-- Icône pour Voir -->
+                            </a>
+                            <a href="{{ route('events.edit', ['event' => $event]) }}">
+                                <i class="fa fa-pencil"></i> <!-- Icône pour Modifier -->
+                            </a>
+                            <form method="POST" action="{{ route('events.destroy', ['event' => $event]) }}" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit">
+                                    <i class="fa fa-trash"></i> <!-- Icône pour Supprimer -->
+                                </button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             @endforeach

@@ -10,6 +10,6 @@
     <form method="POST" action="{{ route('tasks.destroy', $task) }}">
         @csrf
         @method('DELETE')
-        <button type="submit" class="btn btn-danger">Supprimer</button>
+        <button type="submit" class="btn btn-primary">Supprimer</button>
     </form>
 </div>
