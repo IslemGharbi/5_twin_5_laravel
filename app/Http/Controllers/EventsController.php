@@ -19,44 +19,50 @@ class EventsController extends Controller
     $tasks = Task::all();
     return view('events.create', compact('tasks'));
 }
+
+
+
+
+
 public function store(Request $request)
 {
     $eventData = $request->validate([
         'title' => 'required',
         'description' => 'required',
-       'start_date' => 'required|date|after_or_equal:today',
+        'start_date' => 'required|date|after_or_equal:today',
         'end_date' => 'required|date|after:start_date',
         'location' => 'required',
     ]);
 
     $event = Event::create($eventData);
 
-    if ($request->has('task')) {
-        // Créez la tâche associée à l'événement
-        $task = new Task([
-            'description' => $request->input('task'),
-            // Ajoutez d'autres champs de la tâche ici
-        ]);
-
-        $event->tasks()->save($task);
+    if ($request->has('tasks') && is_array($request->input('tasks'))) {
+        // Attachez les tâches sélectionnées à l'événement
+        $event->tasks()->attach($request->input('tasks'));
     }
 
     return redirect()->route('events.index');
 }
 
 
+
+   
+
+
     
-    
-    public function show(Event $event)
-    {
-        return view('events.show', compact('event'));
-    }
+public function show(Event $event)
+{
+    $event->load('tasks'); // Charge les tâches associées à l'événement
+    return view('events.show', compact('event'));
+}
+
 
     public function edit(Event $event)
     {
-        return view('events.edit', compact('event'));
+        $tasks = $event->tasks; // Récupérez les tâches associées à l'événement
+        return view('events.edit', compact('event', 'tasks'));
     }
-
+    
     public function update(Request $request, Event $event)
     {
         $eventData = $request->validate([

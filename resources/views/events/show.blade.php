@@ -1,16 +1,13 @@
 @extends('layouts.freelancer_layout')
 
-
 @section('content')
 <div class="container">
     <h2>Détails de l'événement : {{ $event->title }}</h2>
-
-    <p><strong>Description:</strong> {{ $event->description }}</p>
     <p><strong>Date de début:</strong> {{ $event->start_date }}</p>
     <p><strong>Date de fin:</strong> {{ $event->end_date }}</p>
     <p><strong>Lieu:</strong> {{ $event->location }}</p>
 
-    <h3>Tâches associées :</h3>
+    <h3>Tâches associées à l'événement :</h3>
     <ul>
         @foreach ($event->tasks as $task)
             <li>{{ $task->description }}</li>
