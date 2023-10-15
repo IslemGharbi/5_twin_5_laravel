@@ -19,14 +19,20 @@
         </div>
 
         <div class="form-group">
-            <label for="start_date">Date de début</label>
-            <input type="date" name="start_date" id="start_date" class="form-control" required>
-        </div>
+    <label for="start_date">Date de début</label>
+    <input type="date" name="start_date" class="form-control" id="start_date" value="{{ old('start_date') }}">
+    @error('start_date')
+        <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
+</div>
 
-        <div class="form-group">
-            <label for="end_date">Date de fin</label>
-            <input type="date" name="end_date" id="end_date" class="form-control" required>
-        </div>
+<div class="form-group">
+    <label for="end_date">Date de fin</label>
+    <input type="date" name="end_date" class="form-control" id="end_date" value="{{ old('end_date') }}">
+    @error('end_date')
+        <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
+</div>
 
         <div class="form-group">
             <label for="location">Lieu</label>
