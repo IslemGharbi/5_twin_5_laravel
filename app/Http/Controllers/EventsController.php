@@ -33,7 +33,6 @@ public function store(Request $request)
         'end_date' => 'required|date|after:start_date',
         'location' => 'required',
     ]);
-
     $event = Event::create($eventData);
 
     if ($request->has('tasks') && is_array($request->input('tasks'))) {
