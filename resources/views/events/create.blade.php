@@ -1,11 +1,9 @@
 @extends('layouts.freelancer_layout')
 
-
-
 @section('content')
 <div class="container">
     <h2>Créer un nouvel événement</h2>
-    <form method="POST" action="{{ route('events.store') }}">
+    <form method="POST" action="{{ route('events.store') }}" enctype="multipart/form-data">
         @csrf
 
         <div class="form-group">
@@ -19,20 +17,25 @@
         </div>
 
         <div class="form-group">
-    <label for="start_date">Date de début</label>
-    <input type="date" name="start_date" class="form-control" id="start_date" value="{{ old('start_date') }}">
-    @error('start_date')
-        <div class="alert alert-danger">{{ $message }}</div>
-    @enderror
-</div>
+            <label for="image">Image de l'événement</label>
+            <input type="file" name="image" class="form-control">
+        </div>
+        
+        <div class="form-group">
+            <label for="start_date">Date de début</label>
+            <input type="date" name="start_date" class="form-control" id="start_date" value="{{ old('start_date') }}">
+            @error('start_date')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+        </div>
 
-<div class="form-group">
-    <label for="end_date">Date de fin</label>
-    <input type="date" name="end_date" class="form-control" id="end_date" value="{{ old('end_date') }}">
-    @error('end_date')
-        <div class="alert alert-danger">{{ $message }}</div>
-    @enderror
-</div>
+        <div class="form-group">
+            <label for "end_date">Date de fin</label>
+            <input type="date" name="end_date" class="form-control" id="end_date" value="{{ old('end_date') }}">
+            @error('end_date')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+        </div>
 
         <div class="form-group">
             <label for="location">Lieu</label>

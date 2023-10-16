@@ -8,7 +8,7 @@ class Event extends Model
 {
     // app/Models/Event.php
 
-protected $fillable = ['title', 'description', 'start_date', 'end_date', 'location', 'task'];
+protected $fillable = ['title', 'description', 'start_date', 'end_date', 'location', 'task','image'];
 
 public function tasks()
 {
