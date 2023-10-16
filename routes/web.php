@@ -145,3 +145,4 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/tasks/{task}/edit', [Task
 Route::middleware(['auth:sanctum', 'verified'])->put('/tasks/{task}', [TasksController::class, 'update'])->name('tasks.update');
 Route::middleware(['auth:sanctum', 'verified'])->delete('/tasks/{task}', [TasksController::class, 'destroy'])->name('tasks.destroy');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/cardEvent', [EventsController::class, 'cardEvent'])->name('events.cardEvent');

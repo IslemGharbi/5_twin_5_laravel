@@ -78,4 +78,12 @@ class EventsController extends Controller
         $event->delete();
         return redirect()->route('events.index');
     }
+
+
+    public function cardEvent()
+{
+    $events = Event::all();
+    return view('events.cardEvent', compact('events'));
+}
+
 }
