@@ -8,12 +8,27 @@ use App\Models\Task;
 
 class EventsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $events = Event::all();
-        return view('events.index', compact('events'));
+        $query = Event::query();
+    
+        // Filtrer par lieu
+        if ($request->has('location')) {
+            $query->where('location', $request->input('location'));
+        }
+    
+        // Filtrer par titre
+        if ($request->has('title')) {
+            $query->where('title', 'like', '%' . $request->input('title') . '%');
+        }
+    
+        $events = $query->get();
+    
+        $locations = Event::distinct('location')->pluck('location');
+    
+        return view('events.index', compact('events', 'locations'));
     }
-
+    
     public function create()
     {
         $tasks = Task::all();
@@ -85,6 +100,13 @@ class EventsController extends Controller
 {
     $events = Event::all();
     return view('events.cardEvent', compact('events'));
+}
+
+
+public function showClient(Event $event)
+{
+    $event->load('tasks');
+    return view('events.showClient', compact('event'));
 }
 
 

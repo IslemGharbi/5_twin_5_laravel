@@ -138,5 +138,7 @@ Route::middleware(['auth:sanctum', 'verified'])->delete('/tasks/{task}', [TasksC
 Route::middleware(['auth:sanctum', 'verified'])->get('/cardEvent', [EventsController::class, 'cardEvent'])->name('events.cardEvent');
 
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/events/showClient/{event}', [EventsController::class, 'showClient'])->name('events.showClient');
+
 //Route::middleware(['auth:sanctum', 'verified'])->get('/events/filter', [EventsController::class, 'filter'])->name('events.filter');
 

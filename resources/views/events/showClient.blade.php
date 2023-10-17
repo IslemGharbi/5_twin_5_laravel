@@ -24,7 +24,7 @@
                     </ul>
                 </div>
                 <div class="card-footer text-center">
-                    <a href="{{ route('events.index') }}" class="btn btn-primary">Retour à la liste des événements</a>
+                    <a href="{{ route('events.cardEvent') }}" class="btn btn-primary">Retour à la liste des événements</a>
                 </div>
             </div>
         </div>

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h2>événements</h2>
+    <h2>Events</h2>
     <div class="row">
         @foreach ($events as $event)
             <div class="col-md-4 mb-4">
@@ -14,7 +14,7 @@
                     @endif
                     <div class="card-body" style="min-height: 200px;"> <!-- Ajustez la hauteur minimale selon vos besoins -->
                         <h5 class="card-title">{{ $event->title }}</h5>
-                        <a href="{{ route('events.show', ['event' => $event]) }}" class="btn btn-primary">Voir l'événement</a>
+                        <a href="{{ route('events.showClient', ['event' => $event]) }}" class="btn btn-primary">Voir l'événement</a>
                     </div>
                 </div>
             </div>
