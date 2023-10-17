@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+use App\Mail\EventParticipationConfirmation;
 
 use Illuminate\Http\Request;
 use App\Models\Event;
@@ -85,5 +86,22 @@ class EventsController extends Controller
     $events = Event::all();
     return view('events.cardEvent', compact('events'));
 }
+
+
+/*
+public function filter(Request $request)
+{
+    $location = $request->input('location');
+
+    if ($location) {
+        $events = Event::where('location', $location)->get();
+    } else {
+        $events = Event::all();
+    }
+
+    return view('events.index', compact('events'));
+}
+
+*/
 
 }

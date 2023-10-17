@@ -127,16 +127,6 @@ Route::middleware(['auth:sanctum', 'verified'])->delete('/events/{event}', [Even
 
 
 
-// Routes pour les tâches
-Route::middleware(['auth:sanctum', 'verified'])->get('/events/{event}/tasks', [TasksController::class, 'index'])->name('tasks.index');
-Route::middleware(['auth:sanctum', 'verified'])->get('/events/{event}/tasks/create', [TasksController::class, 'create'])->name('tasks.create');
-Route::middleware(['auth:sanctum', 'verified'])->post('/events/{event}/tasks', [TasksController::class, 'store'])->name('tasks.store');
-Route::middleware(['auth:sanctum', 'verified'])->get('/events/{event}/tasks/{task}', [TasksController::class, 'show'])->name('tasks.show');
-Route::middleware(['auth:sanctum', 'verified'])->get('/events/{event}/tasks/{task}/edit', [TasksController::class, 'edit'])->name('tasks.edit');
-Route::middleware(['auth:sanctum', 'verified'])->put('/events/{event}/tasks/{task}', [TasksController::class, 'update'])->name('tasks.update');
-Route::middleware(['auth:sanctum', 'verified'])->delete('/events/{event}/tasks/{task}', [TasksController::class, 'destroy'])->name('tasks.destroy');
-
-
 Route::middleware(['auth:sanctum', 'verified'])->get('/tasks', [TasksController::class, 'index'])->name('tasks.index');
 Route::middleware(['auth:sanctum', 'verified'])->get('/tasks/create', [TasksController::class, 'create'])->name('tasks.create');
 Route::middleware(['auth:sanctum', 'verified'])->post('/tasks', [TasksController::class, 'store'])->name('tasks.store');
@@ -146,3 +136,7 @@ Route::middleware(['auth:sanctum', 'verified'])->put('/tasks/{task}', [TasksCont
 Route::middleware(['auth:sanctum', 'verified'])->delete('/tasks/{task}', [TasksController::class, 'destroy'])->name('tasks.destroy');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/cardEvent', [EventsController::class, 'cardEvent'])->name('events.cardEvent');
+
+
+//Route::middleware(['auth:sanctum', 'verified'])->get('/events/filter', [EventsController::class, 'filter'])->name('events.filter');
+

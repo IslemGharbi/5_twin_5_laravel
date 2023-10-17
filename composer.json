@@ -14,7 +14,8 @@
         "laravel/sanctum": "^2.6",
         "laravel/tinker": "^2.5",
         "livewire/livewire": "^2.5",
-        "stripe/stripe-php": "^7.108"
+        "stripe/stripe-php": "^7.108",
+        "mailersend/laravel-driver": "1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -57,7 +58,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
