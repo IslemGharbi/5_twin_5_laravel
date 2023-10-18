@@ -10,6 +10,10 @@ class EventsController extends Controller
 {
     public function index(Request $request)
     {
+        if (auth()->check() && auth()->user()->email !== 'admin@email.com') {
+            abort(403, 'Access denied');
+        }
+
         $query = Event::query();
     
         // Filtrer par lieu
@@ -31,6 +35,9 @@ class EventsController extends Controller
     
     public function create()
     {
+        if (auth()->check() && auth()->user()->email !== 'admin@email.com') {
+            abort(403, 'Access denied');
+        }
         $tasks = Task::all();
         return view('events.create', compact('tasks'));
     }
@@ -64,12 +71,18 @@ class EventsController extends Controller
 
     public function show(Event $event)
     {
+        if (auth()->check() && auth()->user()->email !== 'admin@email.com') {
+            abort(403, 'Access denied');
+        }
         $event->load('tasks');
         return view('events.show', compact('event'));
     }
 
     public function edit(Event $event)
     {
+        if (auth()->check() && auth()->user()->email !== 'admin@email.com') {
+            abort(403, 'Access denied');
+        }
         $tasks = $event->tasks;
         return view('events.edit', compact('event', 'tasks'));
     }
