@@ -37,13 +37,14 @@
                                     </ul>
                                 </div>
                                 <div class="d-flex">
-                                    <form action="{{ route('skill.destroy', ['id' => $skill->id]) }}" method="post" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn text-muted me-2" onmouseover="this.style.color='red'" onmouseout="this.style.color=''">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-                                    </form>
+                                <form action="{{ route('skill.destroy', ['id' => $skill->id]) }}" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this skill?');">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn text-muted me-2" onmouseover="this.style.color='red'" onmouseout="this.style.color=''">
+        <i class="fa fa-trash"></i>
+    </button>
+</form>
+
                                     <button class="btn text-muted" onmouseover="this.style.color='red'" onmouseout="this.style.color=''" onclick="toggleEditForm('editForm_{{ $skill->id }}')">
                                         <i class="fa fa-pencil"></i>
                                     </button>
@@ -87,22 +88,55 @@
                         <h2 class="fw-bold mb-4">Add New</h2>
                     </div>
                     <div class="col-lg-12">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Skill:</label>
-                            <input type="text" name="name" class="form-control" placeholder="Enter Skill">
-                            <input type="hidden" name="freelancer_id" value="{{ $freelancer->id }}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="level" class="form-label">Proficiency:</label>
-                            <select name="level" class="form-select">
-                                <option selected disabled>Select Proficiency</option>
-                                <option value="Beginner">Beginner(1)</option>
-                                <option value="Limited">Limited(2)</option>
-                                <option value="Advance">Advance(3)</option>
-                                <option value="Semi-Professional">Semi-Professional(4)</option>
-                                <option value="Professional">Professional(5)</option>
-                            </select>
-                        </div>
+                    <div class="mb-3">
+    <label for="name" class="form-label">Skill:</label>
+    <input type="text" name="name" id="name" class="form-control" placeholder="Enter Skill">
+    <input type="hidden" name="freelancer_id" value="{{ $freelancer->id }}">
+    <div id="nameError" style="color: red;"></div>
+</div>
+
+<script>
+    document.querySelector('form[action="{{ route('skill.store') }}"]').addEventListener('submit', function(event) {
+        var nameInput = document.getElementById('name');
+        var nameError = document.getElementById('nameError');
+
+        if (nameInput.value.trim() === '') {
+            nameError.textContent = 'Please enter a skill .';
+            event.preventDefault(); // Prevent the form from submitting
+        } else {
+            nameError.textContent = ''; // Clear the error message
+        }
+    });
+</script>
+
+
+<div class="mb-3">
+    <label for="level" class="form-label">Proficiency:</label>
+    <select name="level" id="level" class="form-select">
+        <option selected disabled>Select Proficiency</option>
+        <option value="Beginner">Beginner(1)</option>
+        <option value="Limited">Limited(2)</option>
+        <option value="Advance">Advance(3)</option>
+        <option value="Semi-Professional">Semi-Professional(4)</option>
+        <option value="Professional">Professional(5)</option>
+    </select>
+    <div id="levelError" style="color: red;"></div>
+</div>
+
+<script>
+    document.querySelector('form[action="{{ route('skill.store') }}"]').addEventListener('submit', function(event) {
+        var levelSelect = document.getElementById('level');
+        var levelError = document.getElementById('levelError');
+
+        if (levelSelect.value === 'Select Proficiency') {
+            levelError.textContent = 'Please select a proficiency level.';
+            event.preventDefault(); // Prevent the form from submitting
+        } else {
+            levelError.textContent = ''; // Clear the error message
+        }
+    });
+</script>
+
                     </div>
                 </div>
             </fieldset>

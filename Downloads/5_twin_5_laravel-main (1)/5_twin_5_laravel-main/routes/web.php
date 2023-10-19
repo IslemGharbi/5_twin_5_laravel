@@ -103,13 +103,23 @@ Route::middleware(['auth:sanctum', 'verified'])->delete('/skill/destroy/{id}', [
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/language/create/{id}', [LanguageController::class, 'create'])->name('language.create');
 Route::middleware(['auth:sanctum', 'verified'])->post('/language/store', [LanguageController::class, 'store'])->name('language.store');
+Route::middleware(['auth:sanctum', 'verified'])->get('/language/show/{id}', [LanguageController::class, 'show'])->name('language.show');
+Route::middleware(['auth:sanctum', 'verified'])->get('/language/edit/{id}', [LanguageController::class, 'edit'])->name('language.edit');
+Route::middleware(['auth:sanctum', 'verified'])->put('/language/update/{id}', [LanguageController::class, 'update'])->name('language.update');
+Route::middleware(['auth:sanctum', 'verified'])->delete('/language/destroy/{id}', [LanguageController::class, 'destroy'])->name('language.destroy');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/qualification/create/{id}', [QualificationController::class, 'create'])->name('qualification.create');
 Route::middleware(['auth:sanctum', 'verified'])->post('/qualification/store', [QualificationController::class, 'store'])->name('qualification.store');
+Route::middleware(['auth:sanctum', 'verified'])->get('/qualifications/edit/{id}', [QualificationController::class, 'edit'])->name('qualification.edit');
+Route::middleware(['auth:sanctum', 'verified'])->put('/qualifications/{id}', [QualificationController::class, 'update'])->name('qualification.update');
+Route::middleware(['auth:sanctum', 'verified'])->delete('/qualifications/{id}', [QualificationController::class, 'destroy'])->name('qualification.destroy');
+
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/employment/create/{id}', [EmploymentController::class, 'create'])->name('employment.create');
 Route::middleware(['auth:sanctum', 'verified'])->post('/employment/store', [EmploymentController::class, 'store'])->name('employment.store');
-
+Route::middleware(['auth:sanctum', 'verified'])->get('/employment/edit/{id}', [EmploymentController::class, 'edit'])->name('employment.edit');
+Route::middleware(['auth:sanctum', 'verified'])->put('/employment/{id}', [EmploymentController::class, 'update'])->name('employment.update');
+Route::middleware(['auth:sanctum', 'verified'])->delete('/employment/{id}', [EmploymentController::class, 'destroy'])->name('employment.destroy');
 // Route::middleware(['auth:sanctum', 'verified'])->get('/admin', function () {
     //     return view('dashboard');
     // })->name('dashboard');
