@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Reclamation;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Reponse;
-
+use App\Mail\ReclamationResponse;
+use Illuminate\Support\Facades\Mail;
 
 class ReclamationController extends Controller
 {
@@ -116,17 +117,23 @@ public function Adestroy($id)
 //enregistrer reponse
 
 
-        public function storeR(Request $request, $Reclamationid)
+    public function storeR(Request $request, $reclamationId)
     {
         $request->validate([
             'content' => 'required',
         ]);
-
+        
+        $reclamation = Reclamation::find($reclamationId); // Use lowercase "reclamationId"
         $reponse = new Reponse();
         $reponse->content = $request->input('content');
-        $reponse->reclamation_id = $Reclamationid; 
+        $reponse->reclamation_id = $reclamationId; // Use lowercase "reclamationId"
 
         $reponse->save();
+        
+     
+        Mail::to($reclamation->user->email)->send(new ReclamationResponse($reclamation, $reponse));
+
+
 
         return redirect()->route('reclamationsindexall')
             ->with('success', 'Réponse enregistrée avec succès');
