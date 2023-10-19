@@ -20,7 +20,7 @@ class ReclamationResponse extends Mailable
 
     public function build()
     {
-        return $this->view('reclamation-response')
+        return $this->from("esprit.cours1@gmail.com")->view('reclamation-response')
             ->subject('Admin Response to Your Reclamation');
     }
 }
