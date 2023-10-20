@@ -11,11 +11,13 @@ class ReclamationResponse extends Mailable
 {
     public $reclamation;
     public $response;
-
-    public function __construct($reclamation, $response)
+    public $url;
+    public function __construct($reclamation, $response,$url)
     {
         $this->reclamation = $reclamation;
         $this->response = $response;
+        $this->url = $url;
+
     }
 
     public function build()

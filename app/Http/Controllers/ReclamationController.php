@@ -130,8 +130,8 @@ public function Adestroy($id)
 
         $reponse->save();
         
-     
-        Mail::to($reclamation->user->email)->send(new ReclamationResponse($reclamation, $reponse));
+        $url="http://127.0.0.1:8000/reclamations";
+        Mail::to($reclamation->user->email)->send(new ReclamationResponse($reclamation, $reponse, $url));
 
 
 
