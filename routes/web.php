@@ -18,6 +18,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Livewire\chat\CreateChat;
+use App\Http\Livewire\chat\Main;
 
 
 
@@ -39,6 +41,17 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/checkout/', [CheckoutCon
 // Route::get('/pay', function () {
 //     return view('order.payment');
 // });
+
+
+// chat
+// begin 
+
+Route::get('/users', CreateChat::class)->name('users');
+Route::get('/chat{key?}', Main::class)->name('chat');
+
+
+// end
+
 
 Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
 Route::post('/send/mail',[ContactController::class, 'sendEmail'])->name('contact.send');

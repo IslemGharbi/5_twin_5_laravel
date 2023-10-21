@@ -21,6 +21,12 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('orders') }}">Your Orders</a>
                                 </li>
+                                  <li class="nav-item">
+                                <a class="nav-link" href="{{ route('chat') }}">chat</a>
+                            </li>
+                              <li class="nav-item">
+                                <a class="nav-link" href="{{ route('users') }}">users</a>
+                            </li>
 
                                 <li class="nav-item dropdown dropdown-slide">
                                     <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown"
@@ -52,6 +58,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('contact') }}">Contact Us</a>
                             </li>
+                            
                         </ul>
                         <ul class="navbar-nav ml-auto mt-10">
                             <li class="nav-item">
