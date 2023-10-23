@@ -22,15 +22,31 @@ class ReclamationController extends Controller
 
 
 // Enregistrer une nouvelle réclamation
-        public function store(Request $request)
-    {
-        $reclamation = new Reclamation;
-        $reclamation->description = $request->input('description');
-        $reclamation->user_id = Auth::user()->id; 
-        $reclamation->save();
+public function store(Request $request)
+{
+    // Définissez les règles de validation pour les champs du formulaire
+    $rules = [
+        'description' => 'required|min:5', // champ description requis et doit avoir au moins 5 caractères
+    ];
 
-        return redirect()->route('reclamationsindex');
-    }
+    // Définissez les messages d'erreur personnalisés (optionnel)
+    $messages = [
+        'description.required' => 'Le champ description est requis.',
+        'description.min' => 'Le champ description doit avoir au moins :5 caractères.',
+    ];
+
+    // Validez les données du formulaire en utilisant les règles définies
+    $request->validate($rules, $messages);
+
+    // Si la validation réussit, créez et enregistrez la réclamation
+    $reclamation = new Reclamation;
+    $reclamation->description = $request->input('description');
+    $reclamation->user_id = Auth::user()->id;
+    $reclamation->save();
+
+    return redirect()->route('reclamationsindex');
+}
+
 
 
 //afficher les reclamations de user connecte 
@@ -105,9 +121,6 @@ public function Adestroy($id)
 
 
 
-
-
-
 // vue create responce
 
         public function createR($Reclamationid)
@@ -120,27 +133,26 @@ public function Adestroy($id)
 //enregistrer reponse
 
 
-    public function storeR(Request $request, $reclamationId)
-    {
-        $request->validate([
-            'content' => 'required',
-        ]);
-        
-        $reclamation = Reclamation::find($reclamationId); // Use lowercase "reclamationId"
-        $reponse = new Reponse();
-        $reponse->content = $request->input('content');
-        $reponse->reclamation_id = $reclamationId; // Use lowercase "reclamationId"
+public function storeR(Request $request, $reclamationId)
+{
+    $request->validate([
+        'content' => 'required|min:5', // Exemple : champ content requis et doit avoir au moins 5 caractères
+    ]);
+    
+    $reclamation = Reclamation::find($reclamationId);
+    $reponse = new Reponse();
+    $reponse->content = $request->input('content');
+    $reponse->reclamation_id = $reclamationId;
 
-        $reponse->save();
-        
-        $url="http://127.0.0.1:8000/reclamations";
-        Mail::to($reclamation->user->email)->send(new ReclamationResponse($reclamation, $reponse, $url));
+    $reponse->save();
+    
+    $url = "http://127.0.0.1:8000/reclamations";
+    Mail::to($reclamation->user->email)->send(new ReclamationResponse($reclamation, $reponse, $url));
 
+    return redirect()->route('reclamationsindexall')
+        ->with('success', 'Réponse enregistrée avec succès');
+}
 
-
-        return redirect()->route('reclamationsindexall')
-            ->with('success', 'Réponse enregistrée avec succès');
-    }
 
 //supp response
 

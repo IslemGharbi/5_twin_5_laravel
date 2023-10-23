@@ -52,7 +52,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('contact') }}">Contact Us</a>
                             </li>
-                            @if (Auth::user())
+                            @if (Auth::user() && Auth::user()->email !== 'admin@email.com')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('reclamationsindex') }}">Mes_réclamations</a>
                             </li>
