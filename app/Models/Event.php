@@ -20,7 +20,11 @@ public function tasks()
         return $this->belongsToMany(User::class, 'event_user', 'event_id', 'user_id');
     }
 
-
+    public function reservations()
+    {
+        return $this->hasMany(EventReservation::class);
+    }
+    
 
    
 

@@ -5,6 +5,7 @@ use App\Mail\EventParticipationConfirmation;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Task;
+use App\Models\EventReservation;
 
 class EventsController extends Controller
 {
@@ -121,6 +122,45 @@ public function showClient(Event $event)
     $event->load('tasks');
     return view('events.showClient', compact('event'));
 }
+
+
+
+public function reserveEvent($eventId)
+{
+    if (auth()->check()) {
+        $user = auth()->user();
+        $event = Event::find($eventId);
+
+        if (!$event) {
+            return redirect()->back()->with('error', 'L\'événement n\'existe pas.');
+        }
+
+        $existingReservation = EventReservation::where('user_id', $user->id)
+            ->where('event_id', $event->id)
+            ->first();
+
+        if ($existingReservation) {
+            return redirect()->back()->with('error', 'Vous avez déjà réservé cet événement.');
+        }
+
+        $reservation = new EventReservation();
+        $reservation->user_id = $user->id;
+        $reservation->event_id = $event->id;
+        $reservation->save();
+
+        return redirect()->back()->with('success', 'Réservation réussie.');
+    } else {
+        return redirect()->route('login')->with('error', 'Connectez-vous pour réserver cet événement.');
+    }
+}
+
+
+
+
+
+
+
+
 
 
 /*
