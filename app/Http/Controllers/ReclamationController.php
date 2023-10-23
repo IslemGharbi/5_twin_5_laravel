@@ -86,9 +86,12 @@ class ReclamationController extends Controller
 
         public function toutelistReclamations()
     {
-        $reclamations = Reclamation::all();
-        
-        return view('reclamationsindexall', compact('reclamations'));
+        if (auth()->check() && auth()->user()->email === 'admin@email.com') {
+            $reclamations = Reclamation::all();
+            return view('reclamationsindexall', compact('reclamations'));
+        } else {
+            abort(403, 'Access denied');
+        }
     }
 //supprimer une reclamation
 public function Adestroy($id)

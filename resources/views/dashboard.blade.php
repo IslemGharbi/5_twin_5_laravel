@@ -4,7 +4,19 @@
             {{ __('View Categories') }}
         </h2>
     </x-slot>
-
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <!-- Ajoutez le bouton "Gérer les reclamations" -->
+                <a href="{{ route('reclamationsindexall') }}" class="btn btn-primary">Gérer les reclamations</a>
+                
+                
+                <form action="{{ route('category.store') }}" method="POST">
+                    @csrf
+                    <!-- ... Le reste de votre formulaire pour ajouter une catégorie ... -->
+                </form>
+            </div>
+    </div>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
