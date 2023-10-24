@@ -1,7 +1,11 @@
+@extends('layouts.freelancer_layout')
+
+@section('title', 'Create')
+
+<link rel="stylesheet" href="css/style.css">
 
 
-
-
+@section('content')
 <div>
 
 
@@ -86,3 +90,4 @@ height:height,
     
     </script>
 </div>
+@endsection

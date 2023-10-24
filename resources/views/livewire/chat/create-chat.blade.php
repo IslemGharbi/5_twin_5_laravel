@@ -1,3 +1,12 @@
+@extends('layouts.freelancer_layout')
+
+@section('title', 'Create')
+
+
+<link rel="stylesheet" href="css/style.css">
+
+@section("content")
+
 <div>
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
 
@@ -14,3 +23,4 @@
  </ul>
 
 </div>
+@endsection

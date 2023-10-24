@@ -8,7 +8,7 @@
             <div class="col-md-4 mb-4">
                 <div class="card">
                     @if ($event->image)
-                        <img src="{{ asset('storage/' . $event->image) }}" alt="Image de l'événement" class="card-img-top" style="height: 200px; object-fit: contain;">
+                        <img src="{{ asset('/storage/'. $event->image) }}" alt="Image de l'événement" class="card-img-top" style="height: 200px; object-fit: contain;">
                     @else
                         <img src="{{ asset('placeholder.jpg') }}" alt="Image de l'événement" class="card-img-top" style="height: 200px; object-fit: contain;">
                     @endif
