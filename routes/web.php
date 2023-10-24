@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
 
 //Controllers
 use App\Http\Controllers\FreelancerController;
@@ -18,6 +19,10 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\NotesController;
+use App\Http\Controllers\DocumentationController;
+use App\Http\Controllers\MailController;
+
 
 use App\Http\Controllers\ReclamationController;
 use App\Http\Controllers\CertificatesController;
@@ -38,9 +43,22 @@ use App\Http\Livewire\chat\Main;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//note routes 
+Route::middleware(['auth:sanctum', 'verified'])->post('/notes/store', [NotesController::class, 'store'])->name('notes.create');
+Route::middleware(['auth:sanctum', 'verified'])->get('/notes', [NotesController::class, 'index'])->name('notes.index');
+Route::middleware(['auth:sanctum', 'verified'])->delete('/notes/{id}', [NotesController::class, 'destroy'])->name('notes.destroy');
+Route::middleware(['auth:sanctum', 'verified'])->put('/notes/{id}', [NotesController::class, 'update'])->name('notes.update');
+Route::middleware(['auth:sanctum', 'verified'])->get('/notes/check-expired-notes', [NotesController::class, 'checkExpiredNotes']  );
+
+//documentation 
+Route::middleware(['auth:sanctum', 'verified'])->get('/documentation', [DocumentationController::class, 'index'])->name('documentation.index');
+Route::middleware(['auth:sanctum', 'verified'])->post('/documentation/', [DocumentationController::class, 'store'])->name('documentation.store');
+Route::middleware(['auth:sanctum', 'verified'])->delete('/documentation/{id}', [DocumentationController::class , 'destroy'])->name('documentation.destroy');
+Route::middleware(['auth:sanctum', 'verified'])->put('/documentation/{id}', [DocumentationController::class, 'update'])->name('documentation.update');
+
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/checkout/{id}txn{amount}', [CheckoutController::class, 'checkout'])->name('checkout.new');
-Route::middleware(['auth:sanctum', 'verified'])->post('/checkout/', [CheckoutController::class, 'afterpayment'])->name('checkout.credit-card');
+Route::post('/checkout/', [CheckoutController::class, 'afterpayment'])->name('checkout.credit-card');
 
 
 // Route::get('/pay', function () {
@@ -92,6 +110,13 @@ Route::get('/search/category', [GigController::class, 'categorySearch'])->name('
 Route::middleware(['auth:sanctum', 'verified'])->get('/gig/edit/{id}', [GigController::class, 'edit'])->name('gig.edit');
 Route::middleware(['auth:sanctum', 'verified'])->put('/gig/update/{id}', [GigController::class, 'update'])->name('gig.update');
 Route::middleware(['auth:sanctum', 'verified'])->delete('/gig/delete/{id}', [GigController::class, 'destroy'])->name('gig.delete');
+
+
+
+
+
+
+
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/order/list', [OrderController::class, 'index'])->name('order.list');
 Route::middleware(['auth:sanctum', 'verified'])->get('/order/create/{id}', [OrderController::class, 'create'])->name('order.create');
@@ -199,3 +224,5 @@ Route::middleware(['auth:sanctum', 'verified'])->put('/categories/{category}', [
 // Delete a category
 Route::middleware(['auth:sanctum', 'verified'])->delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
+    
+    Route::get('/email/send-test-email', [MailController::class ,'sendTestEmail']);
