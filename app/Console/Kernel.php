@@ -24,8 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('notenotification') // Use the correct command name
-        ->dailyAt('03:30'); // Change the time as per your preference
+        $schedule->command('notifications:send')->everyMinute();
     }
 
     /**

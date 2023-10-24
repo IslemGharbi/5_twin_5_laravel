@@ -3,21 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Models\Note;
 use App\Models\NotePicture;
+use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use CloudinaryLabs\CloudinaryLaravel\MediaAlly;
-
+use Carbon\Carbon;
+use App\Mail\DeadlineNotification;
+use Illuminate\Support\Facades\Mail;
 class NotesController extends Controller
 {
  
    
     // Get all notes
     public function index()
-    {
-        $notes = Note::with('pictures')->get();    
+    {    
+        $notes = Note::with('pictures')->get(); 
         return view('notes.index',compact ('notes'));
     }
 
@@ -144,4 +146,24 @@ class NotesController extends Controller
 
     return redirect('/notes')->with('success', 'Note deleted successfully.');
 }
-}
+
+public function checkExpiredNotes()
+{
+    // Get all notes with deadlines that are in the past (expired)
+    $expiredNotes = Note::where('deadline', '<', Carbon::now())->get();
+
+    // You can now work with the $expiredNotes collection
+    // For example, you can loop through them and take action if needed.
+
+    foreach ($expiredNotes as $note) {
+        // Check if the note has an associated user
+        if ($note->user) {
+            // Do something with the expired note, e.g., send notifications, update status, etc.
+            // For sending email notifications, you can use Laravel's Mail facade:
+            Mail::to('saidi.omar@esprit.tn')->send(new DeadlineNotification($note));
+
+            // Update the note status, mark it as expired, or perform any other action as needed.
+        }
+    }
+
+}}

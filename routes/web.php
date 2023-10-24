@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
 
 //Controllers
 use App\Http\Controllers\FreelancerController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\NotesController;
 use App\Http\Controllers\DocumentationController;
+use App\Http\Controllers\MailController;
 
 
 
@@ -39,6 +41,7 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/notes/store', [NotesCont
 Route::get('/notes', [NotesController::class, 'index'])->name('notes.index');
 Route::delete('/notes/{id}', [NotesController::class, 'destroy'])->name('notes.destroy');
 Route::put('/notes/{id}', [NotesController::class, 'update'])->name('notes.update');
+Route::get('/notes/check-expired-notes', [NotesController::class, 'checkExpiredNotes']  );
 
 //documentation 
 Route::get('/documentation', [DocumentationController::class, 'index'])->name('documentation.index');
@@ -135,4 +138,4 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/employment/store', [Empl
     Route::middleware(['auth:sanctum', 'verified'])->post('/category/store', [CategoryController::class, 'store'])->name('category.store');
     Route::middleware(['auth:sanctum', 'verified'])->post('/sub_category/store', [SubCategoryController::class, 'store'])->name('sub_category.store');
     
- 
+    Route::get('/email/send-test-email', [MailController::class ,'sendTestEmail']);
