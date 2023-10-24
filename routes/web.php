@@ -143,3 +143,4 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/events/showClient/{event}
 
 //Route::middleware(['auth:sanctum', 'verified'])->get('/events/filter', [EventsController::class, 'filter'])->name('events.filter');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/admin/reservations', [EventsController::class, 'adminReservations'])->name('admin.reservations');

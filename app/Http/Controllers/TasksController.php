@@ -46,10 +46,12 @@ class TasksController extends Controller
     {
         $request->validate([
             'description' => 'required',
-            'due_date' => 'required',
+            'due_date' => 'required|date|after_or_equal:today',
             'status' => 'required',
             'priority' => 'required',
         ]);
+        
+        
 
         $task->update($request->all());
 

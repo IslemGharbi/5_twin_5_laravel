@@ -14,6 +14,9 @@
                 
                 <!-- Ajoutez le bouton "Gérer les tâches" -->
                 <a href="{{ route('tasks.index') }}" class="btn btn-primary">Gérer les tâches</a>
+
+                 <!-- Ajoutez le bouton "Voir les réservations" -->
+                 <a href="{{ route('admin.reservations') }}" class="btn btn-primary">Voir les réservations</a>
                 
                 <form action="{{ route('category.store') }}" method="POST">
                     @csrf

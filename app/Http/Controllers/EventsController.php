@@ -156,6 +156,19 @@ public function reserveEvent($eventId)
 
 
 
+public function adminReservations()
+{
+
+    if (auth()->check() && auth()->user()->email !== 'admin@email.com') {
+        abort(403, 'Access denied');
+    }
+    // Récupérer toutes les réservations avec les données de l'utilisateur et de l'événement
+    $reservations = EventReservation::with('user', 'event')->get();
+    return view('events.reservations', compact('reservations'));
+}
+
+
+
 
 
 
