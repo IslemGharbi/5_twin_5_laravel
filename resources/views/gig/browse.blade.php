@@ -58,47 +58,49 @@
                                     <div class="col-sm-12 col-lg-4 col-md-6">
                                         <!-- product card -->
                                         <div class="product-item bg-light">
-                                            <div class="card">
-                                                <div class="thumb-content">
-                                                    <!-- <div class="price">$200</div> -->
-                                                    <a href="{{ route('gig.show', ['id' => $result->id]) }}">
-                                                        @foreach ($result->thumbnail as $thumbnail)
-                                                            @if ($loop->first)
-                                                                <img class="card-img-top img-fluid"
-                                                                    src="{{ $thumbnail->url }}"
-                                                                    alt="images/products/products-1.jpg"
-                                                                    alt="Card image cap">
-                                                            @endif
+                                        <div class="card">
+    <div class="thumb-content">
+        <!-- <div class="price">$200</div> -->
+        <a href="{{ route('gig.show', ['id' => $result->id]) }}">
+            @foreach ($result->thumbnail as $thumbnail)
+                @if ($loop->first)
+                    <img class="card-img-top img-fluid" src="{{ $thumbnail->url }}" alt="images/products/products-1.jpg" alt="Card image cap">
+                @endif
+            @endforeach
+        </a>
+        <div class="buttons">
+            <a href="{{ route('gig.edit', ['id' => $result->id]) }}" class="btn btn-primary">Edit</a>
+            <form action="{{ route('gig.delete', ['id' => $result->id]) }}" method="POST" class="d-inline">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </div>
+    </div>
+    <div class="card-body">
+        <h4 class="card-title">
+            <a href="{{ route('gig.show', ['id' => $result->id]) }}">{{ $result->title }}</a>
+        </h4>
+        <ul class="list-inline product-meta">
+            <li class="list-inline-item">
+                <a href="single.html"><i class="fa fa-folder-open-o"></i>{{ $result->category->name }}</a>
+            </li>
+            <li class="list-inline-item">
+                <a href="#"><i class="fa fa-calendar"></i>{{ $result->created_at }}</a>
+            </li>
+        </ul>
+        <h2 class="card-text" style="text-align: center">
+            @foreach ($result->option as $option)
+                @if ($loop->first)
+                    ${{ $option->price }}
+                @elseif ($loop->last)
+                    - ${{ $option->price }}
+                @endif
+            @endforeach
+        </h2>
+    </div>
+</div>
 
-                                                        @endforeach
-                                                    </a>
-                                                </div>
-                                                <div class="card-body">
-                                                    <h4 class="card-title"><a
-                                                            href="{{ route('gig.show', ['id' => $result->id]) }}">{{ $result->title }}</a>
-                                                    </h4>
-                                                    <ul class="list-inline product-meta">
-                                                        <li class="list-inline-item">
-                                                            <a href="single.html"><i
-                                                                    class="fa fa-folder-open-o"></i>{{ $result->category->name }}</a>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <a href="#"><i
-                                                                    class="fa fa-calendar"></i>{{ $result->created_at }}</a>
-                                                        </li>
-                                                    </ul>
-                                                    <h2 class="card-text" style="text-align: center">
-                                                        @foreach ($result->option as $option)
-                                                            @if ($loop->first)
-                                                                ${{ $option->price }}
-                                                            @elseif ($loop->last)
-                                                                - ${{ $option->price }}
-                                                            @endif
-
-                                                        @endforeach
-                                                    </h2>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 @endforeach

@@ -72,26 +72,50 @@
         </div>
 
         @foreach ($category2 as $category)
-            <div class="py-12">
-                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                            {{ $category->name }}
-                        </h2>
-                        @php
-                            $i = 1;
-                        @endphp
-                        <table class="table">
-                            @foreach ($category->sub_category as $sub_category)
-                                <tr>
-                                    <td>{{ $i++ }}</td>
-                                    <td>{{ $sub_category->name }}</td>
-                                    <td>Edit Delete</td>
-                                </tr>
-                            @endforeach
-                        </table>
-                    </div>
+        <div class="py-12">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+        <div class="py-12">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="font-semibold text-xl text-gray-800">{{ $category->name }}</h2>
+                <div>
+                    <a href="{{ route('categories.edit', ['category' => $category->id]) }}" class="btn btn-primary">Edit</a>
+                    <form action="{{ route('categories.destroy', ['category' => $category->id]) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+
+            @php
+                $i = 1;
+            @endphp
+            <table class="table">
+            @foreach ($category->sub_category as $sub_category)
+                <tr>
+                    <td>{{ $i++ }}</td>
+                    <td>{{ $sub_category->name }}</td>
+                    <td>
+                        <a href="{{ route('subcategories.edit', ['subcategory' => $sub_category->id]) }}" class="btn btn-primary">Edit</a>
+                        <form action="{{ route('subcategories.destroy', ['subcategory' => $sub_category->id]) }}" method="POST" class="d-inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+            </table>
+        </div>
+    </div>
+</div>
+
         @endforeach
 </x-app-layout>

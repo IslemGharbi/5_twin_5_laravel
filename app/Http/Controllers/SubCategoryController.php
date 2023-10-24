@@ -5,35 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\SubCategory;
+use App\Models\Category;
 
 class SubCategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        // You can retrieve a list of subcategories here and return a view to display them.
+        $subCategories = SubCategory::all();
+        return view('subcategories.index', compact('subCategories'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        // You can return a view to create a new subcategory here.
+        return view('subcategories.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $sub_category = new SubCategory();
@@ -43,48 +31,45 @@ class SubCategoryController extends Controller
         return redirect()->route('dashboard');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        // You can retrieve and display a specific subcategory here.
+        $subCategory = SubCategory::find($id);
+        return view('subcategories.show', compact('subCategory'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        $subCategory = SubCategory::find($id);
+        $categories = Category::all(); // Vous devrez peut-être récupérer les catégories pour le formulaire d'édition.
+        return view('subcategories.edit', compact('subCategory', 'categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $subCategory = SubCategory::find($id);
+    
+        $request->validate([
+            'name' => 'required',
+            'category_id' => 'required',
+        ]);
+    
+        $subCategory->name = $request->name;
+        $subCategory->category_id = $request->category_id;
+        $subCategory->save();
+    
+        return redirect()->route('dashboard');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $subCategory = SubCategory::find($id);
+
+        if (!$subCategory) {
+            return redirect()->route('dashboard')->with('error', 'Subcategory not found.');
+        }
+
+        $subCategory->delete();
+
+        return redirect()->route('dashboard')->with('success', 'Subcategory deleted successfully.');
     }
 }

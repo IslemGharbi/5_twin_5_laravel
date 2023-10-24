@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Gig;
 use App\Models\Category;
 use App\Models\SubCategory;
+use App\Models\Thumbnail;
 
 
 use Illuminate\Http\Request;
@@ -87,16 +88,24 @@ class GigController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+ * Show the form for editing the specified resource.
+ *
+ * @param  int  $id
+ * @return \Illuminate\Http\Response
+ */
     public function edit($id)
     {
-        //
+        $gig = Gig::find($id);
+        $category = Category::all();
+        $sub_category = SubCategory::all();
+        
+        if ($gig) {
+            return view('gig.edit', compact('gig', 'category', 'sub_category'));
+        } else {
+            return redirect()->route('gig.list');
+        }
     }
-
+    
     /**
      * Update the specified resource in storage.
      *
@@ -106,9 +115,42 @@ class GigController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $gig = Gig::find($id);
+    
+        if (!$gig) {
+            return redirect()->route('gig.list')->with('error', 'Gig not found.');
+        }
+    
+        // Update other fields
+        $gig->title = $request->title;
+        $gig->description = $request->description;
+        $gig->freelancer_id = $request->freelancer_id;
+        $gig->category_id = $request->category_id;
+        $gig->sub_category_id = $request->sub_category_id;
+    
+        // Check if a new image file was provided
+        if ($request->hasFile('thumbnail')) {
+            // Handle the image upload using Cloudinary
+            $image = $request->file('thumbnail');
+            $uploadedImage = cloudinary()->upload($image->getRealPath())->getSecurePath();
+            $thumbnail = Thumbnail::where('gig_id', $id)->first();
+            if ($thumbnail) {
+                $thumbnail->url = $uploadedImage;
+                $thumbnail->save();
+            } else {
+                $newThumbnail = new Thumbnail();
+                $newThumbnail->gig_id = $id; // Set the gig ID
+                $newThumbnail->url = $uploadedImage; // Set the URL for the new thumbnail
+                $newThumbnail->save();
+            }
+        }
+    
+        $gig->save();
+    
+        return redirect()->route('gig.show', ['id' => $id])->with('success', 'Gig updated successfully.');
     }
-
+    
+    
     /**
      * Remove the specified resource from storage.
      *
@@ -117,6 +159,14 @@ class GigController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $gig = Gig::find($id);
+    
+        if (!$gig) {
+            return redirect()->route('gig.list')->with('error', 'Gig not found.');
+        }
+    
+        $gig->delete();
+    
+        return redirect()->route('gig.list')->with('success', 'Gig deleted successfully.');
     }
 }

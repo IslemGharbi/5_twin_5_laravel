@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\Thumbnail;
 use App\Models\Gig;
+use Cloudinary;
+use Cloudinary\Uploader;
 
 use Illuminate\Http\Request;
 
@@ -39,19 +41,28 @@ class ThumbnailController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg',
-        ]);
+        $gigId = $request->input('gig_id');
+        $image = $request->file('image');
     
-        $imageName = time().'.'.$request->image->extension();  
-     
-        $request->image->move(public_path('images/uploads'), $imageName);
-         
-        $thumbnail = new Thumbnail();
-        $thumbnail->url = '/images/uploads/'.$imageName;
-        $thumbnail->gig_id = $request->gig_id;
-        $thumbnail->save();
-        return redirect()->route('thumbnail.create',['id'=>$request->gig_id]);
+        // Check if a file was uploaded
+        if ($image) {
+            // Validate that the uploaded file is an image
+            if ($image->isValid() && strpos($image->getMimeType(), 'image') !== false) {
+                // Upload the image to Cloudinary
+                $uploadedImage = cloudinary()->upload($image->getRealPath())->getSecurePath();
+    
+                // Save the Cloudinary URL to your database
+                $thumbnail = new Thumbnail();
+                $thumbnail->gig_id = $gigId;
+                $thumbnail->url = $uploadedImage;
+                $thumbnail->save();
+    
+                return redirect()->route('thumbnail.create', ['id' => $request->gig_id]);
+            }
+        }
+    
+        // Handle the case where no valid image was uploaded
+        return back()->with('error', 'Please upload a valid image.');
     }
 
     /**
