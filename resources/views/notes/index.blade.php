@@ -84,9 +84,13 @@
       @foreach($note->pictures as $picture)
             <div class="blog-image">
                 <img class="img-fluid" src="{{ $picture->url }}" alt="Post Image">
-            </div>
+            </div><br>
             @endforeach
+            
+           
+
             <div class="blog-content">
+                
                 <ul class="entry-meta meta-item">
                     <li>
                         <div class="post-author">
@@ -98,6 +102,18 @@
                 </ul>
                 <h3 class="blog-title">{{ $note->subject }}</h3>
                 <p class="mb-0">{{ $note->details }}</p>
+    <!-- Update button -->
+    <div class="d-flex justify-content-between align-items-center">
+      <button class="btn btn-sm btn-danger" onclick="deleteNote({{ $note->id }})">
+          <i class="fas fa-trash"></i> Delete
+      </button>
+      <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#editNotesModal">
+          <i class="fas fa-edit"></i> Update
+      </button>
+  </div>
+              @include('notes.edit')
+              
+            
             </div>
         
     </div>
@@ -131,51 +147,28 @@
 </div>
 
 <div class="col-lg-4 col-md-12 sidebar-right theiaStickySidebar">
-
 <div class=" pro-post widget-box post-widget">
 <h4 class="pro-title">Latest Notes</h4>
 <div class="pro-content pt-0">
+  @foreach($notes as $note)
 <ul class="latest-posts">
+  
+
 <li>
 <div class="post-thumb">
 <a href="blog-details.html">
-<img class="img-fluid" src="assets/img/blog/blog-thumb-03.jpg" alt>
-</a>
+ <img class="img-fluid" src="{{ $picture->url }}" alt="Post Image"></a>
 </div>
 <div class="post-info">
 <h4>
-<a href="blog-details.html">Kofejob - How to get job through online?</a>
+<a href="blog-details.html">{{ $note->details }}</a>
 </h4>
-<a href="#" class="posts-date"><i class="far fa-calendar-alt"></i> 2 May 2021</a>
+<a href="#" class="posts-date"><i class="far fa-calendar-alt"></i>{{ $note->created_at }}</a>
 </div>
 </li>
-<li>
-<div class="post-thumb">
-<a href="blog-details.html">
-<img class="img-fluid" src="assets/img/blog/blog-thumb-02.jpg" alt>
-</a>
-</div>
-<div class="post-info">
-<h4>
-<a href="blog-details.html">People who completed NAND technology got job 90% </a>
-</h4>
-<a href="#" class="posts-date"><i class="far fa-calendar-alt"></i> 3 May 2021</a>
-</div>
-</li>
-<li>
-<div class="post-thumb">
-<a href="blog-details.html">
-<img class="img-fluid" src="assets/img/blog/blog-thumb-01.jpg" alt>
-</a>
-</div>
-<div class="post-info">
-<h4>
-<a href="blog-details.html">There are many variations of passages</a>
-</h4>
-<a href="#" class="posts-date"><i class="far fa-calendar-alt"></i> 4 May 2021</a>
-</div>
-</li>
+
 </ul>
+@endforeach
 </div>
 </div>
 
@@ -220,3 +213,28 @@
 
 
 @endsection
+<script>
+  function deleteNote(noteId) {
+      if (confirm('Are you sure you want to delete this note?')) {
+          // Send an AJAX request to delete the note
+          fetch(`/notes/${noteId}`, {
+              method: 'DELETE',
+              headers: {
+                  'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                  'Content-Type': 'application/json'
+              }
+          })
+          .then(response => {
+              if (response.ok) {
+                  // Note deleted successfully, you can also remove it from the UI
+                  // For example: document.getElementById(`note-${noteId}`).remove();
+              } else {
+                  // Handle errors if needed
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
+          });
+      }
+  }
+</script>

@@ -56,49 +56,91 @@ class NotesController extends Controller
         return redirect('/notes')->with('success', 'Note created successfully');
     }
 
-
+  
+    public function update(Request $request, $id)
+    {
+        // Find the note to be updated
+        $note = Note::findOrFail($id);
+    
+        // Validate the request data
+        $this->validate($request, [
+            'subject' => 'required',
+            'details' => 'required',
+            'deadline' => 'required',
+        ]);
+    
+        // Update the note with the new data
+        $note->subject = $request->input('subject');
+        $note->details = $request->input('details');
+        $note->deadline = $request->input('deadline');
+        $note->save();
+    
+        // Handle picture update (assuming 'picture' is the input name)
+        if ($request->hasFile('picture')) {
+            $picture = $note->pictures->first(); // Assuming there is one picture associated with the note
+    
+            if (!$picture) {
+                $picture = new NotePicture();
+                $picture->note_id = $note->id;
+            }
+    
+            // Update and save the picture using Cloudinary
+            $uploadedFile = $request->file('picture');
+            $result = $uploadedFile->storeOnCloudinary();
+    
+            $picture->public_id = $result->getPublicId();
+            $picture->url = $result->getSecurePath();
+    
+            $picture->save();
+        }
+    
+        // Redirect to the notes list or show the updated note
+        return redirect('/notes')->with('success', 'Note updated successfully');
+    }
+    
 
 
 
 
    
  // Update a specific note
- public function update(Request $request, Note $note)
- {
-     // Validate and update the note
-     $note->subject = $request->input('subject');
-     $note->details = $request->input('details');
-     $note->deadline = $request->input('deadline');
-     $note->save();
+//  public function update(Request $request, Note $note)
+//  {
+//      // Validate and update the note
+//      $note->subject = $request->input('subject');
+//      $note->details = $request->input('details');
+//      $note->deadline = $request->input('deadline');
+//      $note->save();
 
-     // Handle picture update (assuming 'picture' is the input name)
-     if ($request->hasFile('picture')) {
-         $picture = $note->picture; // Assuming there is one picture associated with the note
+//      // Handle picture update (assuming 'picture' is the input name)
+//      if ($request->hasFile('picture')) {
+//          $picture = $note->picture; // Assuming there is one picture associated with the note
 
-         // Update and save the picture using Cloudinary
-         $uploadedFile = $request->file('picture');
-         $result = $uploadedFile->storeOnCloudinary();;
+//          // Update and save the picture using Cloudinary
+//          $uploadedFile = $request->file('picture');
+//          $result = $uploadedFile->storeOnCloudinary();;
 
-         $picture->public_id = $result->getPublicId();
-         $picture->url = $result->getSecurePath();
+//          $picture->public_id = $result->getPublicId();
+//          $picture->url = $result->getSecurePath();
 
-         $picture->save();
-     }
+//          $picture->save();
+//      }
 
-     return redirect()->route('notes.show', ['note' => $note])->with('success', 'Note updated successfully');
- }
+//      return redirect()->route('notes.show', ['note' => $note])->with('success', 'Note updated successfully');
+//  }
 
- // Delete a specific note
- public function destroy(Note $note)
- {
-     // Delete associated pictures (assuming there's a relationship)
-     $note->pictures()->delete();
+ public function destroy($id)
+{
+    $note = Note::find($id);
 
-     // Delete the note
-     $note->delete();
+    if (!$note) {
+        return redirect('/notes')->with('error', 'Note not found.');
+    }
 
-     return redirect('/notes')->with('success', 'Note deleted successfully');
- }
+    // Delete associated pictures (assuming you want to delete them as well)
+    $note->pictures()->delete();
 
-    // ...
-}
+    $note->delete();
+
+    return redirect('/notes')->with('success', 'Note deleted successfully.');
+}}

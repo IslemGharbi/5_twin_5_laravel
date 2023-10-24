@@ -35,6 +35,11 @@ use App\Http\Controllers\NotesController;
 //note routes 
 Route::middleware(['auth:sanctum', 'verified'])->post('/notes/store', [NotesController::class, 'store'])->name('notes.create');
 Route::get('/notes', [NotesController::class, 'index'])->name('notes.index');
+Route::delete('/notes/{id}', [NotesController::class, 'destroy'])->name('notes.destroy');
+Route::put('/notes/{id}', [NotesController::class, 'update'])->name('notes.update');
+
+
+
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/checkout/{id}txn{amount}', [CheckoutController::class, 'checkout'])->name('checkout.new');
 Route::post('/checkout/', [CheckoutController::class, 'afterpayment'])->name('checkout.credit-card');
