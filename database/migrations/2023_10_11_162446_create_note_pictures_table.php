@@ -17,7 +17,8 @@ class CreateNotePicturesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('note_id');
             $table->foreign('note_id')->references('id')->on('notes')->onDelete('cascade');
-            $table->string('path'); // Path to the image (adjust as needed)
+            $table->string('public_id');
+            $table->string('url'); // Path to the image (adjust as needed)
             $table->timestamps();
         });
     }

@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Note;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+
 use CloudinaryLabs\CloudinaryLaravel\MediaAlly;
 
 class NotePicture extends Model

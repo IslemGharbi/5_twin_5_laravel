@@ -7,28 +7,23 @@ use Illuminate\Http\Request;
 use App\Models\Note;
 use App\Models\NotePicture;
 use Illuminate\Support\Facades\Log;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use CloudinaryLabs\CloudinaryLaravel\MediaAlly;
 
 class NotesController extends Controller
 {
-    // ...    // Get a specific note
-    // public function show(Note $note)
-    // {
-    //     $pictures = $note->pictures;
-
-    //     return view('notes.show', ['note' => $note, 'pictures' => $pictures]);
-    // }
+ 
    
     // Get all notes
     public function index()
     {
-        $notes = Note::all();
-    
-        return view('notes', ['notes' => $notes]);
+        $notes = Note::with('pictures')->get();    
+        return view('notes.index',compact ('notes'));
     }
 
       
 
-    // Store a newly created note in the database
+
     public function store(Request $request)
     {
         // Validate and save the note
@@ -37,25 +32,34 @@ class NotesController extends Controller
         $note->details = $request->input('details');
         $note->deadline = $request->input('deadline');
         $note->save();
-
-        // Handle picture upload (assuming 'picture' is the input name)
+    
+        // Handle picture upload
         if ($request->hasFile('picture')) {
-            $picture = new NotePicture;
-            $picture->note_id = $note->id;
-
-            // Upload and save the picture using Cloudinary
             $uploadedFile = $request->file('picture');
-            $result = $uploadedFile->storeOnCloudinary();;
-
-            $picture->public_id = $result->getPublicId();
+    
+            // Upload the image to Cloudinary
+            $result = Cloudinary::upload($uploadedFile->getPathname(), [
+                "folder" => "notes", 
+            ]);
+    
+            // The result should be an object, not an array
+    
+            // Create a new NotePicture record
+            $picture = new NotePicture;
+            $picture->note_id = $note->id; // Associate the picture with the note
+            $picture->public_id =$note->id;            
             $picture->url = $result->getSecurePath();
-
             $picture->save();
         }
-
+    
         // Redirect to the notes list or show the newly created note
         return redirect('/notes')->with('success', 'Note created successfully');
     }
+
+
+
+
+
 
    
  // Update a specific note

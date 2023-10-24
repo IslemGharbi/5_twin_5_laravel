@@ -48,7 +48,7 @@
                             @endif
                             @if (Auth::user())
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('notes') }}">notes</a>
+                                <a class="nav-link" href="{{ route('notes.index') }}">notes</a>
                             </li>
                             @endif
                             <li class="nav-item">
