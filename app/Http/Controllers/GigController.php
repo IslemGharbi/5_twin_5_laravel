@@ -60,6 +60,22 @@ class GigController extends Controller
      */
     public function store(Request $request)
     {
+          // Define validation rules
+    $rules = [
+        'title' => 'required', // Add validation rule for the 'title' field
+        'description' => 'required',
+        'freelancer_id' => 'required',
+        'category_id' => 'required',
+        'sub_category_id' => 'required',
+    ];
+
+    // Create a validator with the rules
+    $validator = Validator::make($request->all(), $rules);
+
+    // Check if validation fails
+    if ($validator->fails()) {
+        return redirect()->back()->withErrors($validator)->withInput();
+    }
         $gig = new Gig();
         $gig->title = $request->title;
         $gig->description = $request->description;
