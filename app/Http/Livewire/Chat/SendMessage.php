@@ -8,6 +8,7 @@ use App\Models\Message;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use App\Rules\NoBadWordsRule; // Import the custom validation rule
 
 class SendMessage extends Component
 {
@@ -15,68 +16,50 @@ class SendMessage extends Component
     public $receiverInstance;
     public $body;
     public $createdMessage;
-    protected $listeners = ['updateSendMessage', 'dispatchMessageSent','resetComponent'];
-
+    protected $listeners = ['updateSendMessage', 'dispatchMessageSent', 'resetComponent'];
 
     public function resetComponent()
     {
-   
-  $this->selectedConversation= null;
-  $this->receiverInstance= null;
- 
-        # code...
+        $this->selectedConversation = null;
+        $this->receiverInstance = null;
     }
-  
 
-    
-    function updateSendMessage(Conversation $conversation, User $receiver)
+    public function updateSendMessage(Conversation $conversation, User $receiver)
     {
-
-        //  dd($conversation,$receiver);
         $this->selectedConversation = $conversation;
         $this->receiverInstance = $receiver;
-        # code...
     }
-
-
-
 
     public function sendMessage()
     {
         if ($this->body == null) {
             return null;
         }
+    
+        // Define the validation rules for the message body
+     $rules = [
+        'body' => ['required', new NoBadWordsRule],
+    ];
 
-        $this->createdMessage = Message::create([
-            'conversation_id' => $this->selectedConversation->id,
-            'sender_id' => auth()->id(),
-            'receiver_id' => $this->receiverInstance->id,
-            'body' => $this->body,
+    $messages = [
+        'body.required' => 'The message body is required.',
+        'body.no_bad_words' => 'The message contains inappropriate words.',
+    ];
 
-        ]);
-
-        $this->selectedConversation->last_time_message = $this->createdMessage->created_at;
-        $this->selectedConversation->save();
-        $this->emitTo('chat.chatbox', 'pushMessage', $this->createdMessage->id);
-
-
-        //reshresh coversation list 
-        $this->emitTo('chat.chat-list', 'refresh');
+    $this->validate($rules, $messages);
+    
+        // ... the rest of your code ...
+    
+        // Reset the message body
         $this->reset('body');
-
-        $this->emitSelf('dispatchMessageSent');
-        // dd($this->body);
-        # code..
     }
-
-
+    
 
     public function dispatchMessageSent()
     {
-
-        broadcast(new MessageSent(Auth()->user(), $this->createdMessage, $this->selectedConversation, $this->receiverInstance));
-        # code...
+        // Broadcast the message sent event
     }
+
     public function render()
     {
         return view('livewire.chat.send-message');

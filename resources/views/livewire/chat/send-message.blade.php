@@ -10,7 +10,7 @@
                 <input wire:model='body' type="text" id="sendMessage" class="control" placeholder="Write message">
             <button type="submit" class="submit">Send</button>
             </div>
-        
+          @error('body') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
         </form>
 

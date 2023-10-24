@@ -1,9 +1,4 @@
 
-@extends('layouts.freelancer_layout')
-
-@section('title', 'Create')
-
-@section('content')
 
 
 <div>
