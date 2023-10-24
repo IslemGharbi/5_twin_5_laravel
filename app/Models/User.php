@@ -78,4 +78,14 @@ class User extends Authenticatable
     return $this->hasMany(Reclamation::class);
 }
 
+
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }

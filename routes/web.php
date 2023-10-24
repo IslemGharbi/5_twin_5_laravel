@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
 
 //Controllers
+use App\Http\Controllers\TasksController;
+use App\Http\Controllers\EventsController;
 use App\Http\Controllers\FreelancerController;
 use App\Http\Controllers\GigController;
 use App\Http\Controllers\OrderController;
@@ -226,3 +228,31 @@ Route::middleware(['auth:sanctum', 'verified'])->delete('/categories/{category}'
 
     
     Route::get('/email/send-test-email', [MailController::class ,'sendTestEmail']);
+    // Routes pour les événements
+Route::middleware(['auth:sanctum', 'verified'])->get('/events', [EventsController::class, 'index'])->name('events.index');
+Route::middleware(['auth:sanctum', 'verified'])->get('/events/create', [EventsController::class, 'create'])->name('events.create');
+Route::middleware(['auth:sanctum', 'verified'])->post('/events', [EventsController::class, 'store'])->name('events.store');
+Route::middleware(['auth:sanctum', 'verified'])->get('/events/{event}', [EventsController::class, 'show'])->name('events.show');
+Route::middleware(['auth:sanctum', 'verified'])->get('/events/{event}/edit', [EventsController::class, 'edit'])->name('events.edit');
+Route::middleware(['auth:sanctum', 'verified'])->put('/events/{event}', [EventsController::class, 'update'])->name('events.update');
+Route::middleware(['auth:sanctum', 'verified'])->delete('/events/{event}', [EventsController::class, 'destroy'])->name('events.destroy');
+
+
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/tasks', [TasksController::class, 'index'])->name('tasks.index');
+Route::middleware(['auth:sanctum', 'verified'])->get('/tasks/create', [TasksController::class, 'create'])->name('tasks.create');
+Route::middleware(['auth:sanctum', 'verified'])->post('/tasks', [TasksController::class, 'store'])->name('tasks.store');
+Route::middleware(['auth:sanctum', 'verified'])->get('/tasks/{task}', [TasksController::class, 'show'])->name('tasks.show');
+Route::middleware(['auth:sanctum', 'verified'])->get('/tasks/{task}/edit', [TasksController::class, 'edit'])->name('tasks.edit');
+Route::middleware(['auth:sanctum', 'verified'])->put('/tasks/{task}', [TasksController::class, 'update'])->name('tasks.update');
+Route::middleware(['auth:sanctum', 'verified'])->delete('/tasks/{task}', [TasksController::class, 'destroy'])->name('tasks.destroy');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/cardEvent', [EventsController::class, 'cardEvent'])->name('events.cardEvent');
+Route::middleware(['auth:sanctum', 'verified'])->post('/events/{event}/reserve', [EventsController::class, 'reserveEvent'])->name('events.reserve');
+
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/events/showClient/{event}', [EventsController::class, 'showClient'])->name('events.showClient');
+
+//Route::middleware(['auth:sanctum', 'verified'])->get('/events/filter', [EventsController::class, 'filter'])->name('events.filter');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/admin/reservations', [EventsController::class, 'adminReservations'])->name('admin.reservations');

@@ -29,6 +29,33 @@
                             </li>
 
                  
+                                </li>
+                                <li class="nav-item">
+            <a class="nav-link" href="{{ route('events.cardEvent') }}">Events</a>
+        </li>
+                                <li class="nav-item dropdown dropdown-slide">
+                                    <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        Freelancing <span><i class="fa fa-angle-down"></i></span>
+                                    </a>
+                                    <!-- Dropdown list -->
+                                    <div class="dropdown-menu">
+                                        @if (!Auth::user()->freelancer)
+
+                                            <form method="POST" action="{{ route('freelancer.store') }}">
+                                                @csrf
+                                                <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                                <button class="dropdown-item" type="submit">Join As a
+                                                    Freelancer</button>
+                                            </form>
+                                        @else
+                                            <a class="dropdown-item" href="{{ route('gig.create.view') }}">Add
+                                                Gigs</a>
+                                            <a class="dropdown-item" href="{{ route('order.list') }}">View
+                                                Orders</a>
+                                        @endif
+                                    </div>
+                                </li>
                             @endif
                             @if (Auth::user())
                             <li class="nav-item">
