@@ -24,7 +24,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('notenotification') // Use the correct command name
+        ->dailyAt('03:30'); // Change the time as per your preference
     }
 
     /**
