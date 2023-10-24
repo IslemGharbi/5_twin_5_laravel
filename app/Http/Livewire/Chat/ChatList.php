@@ -73,21 +73,26 @@ $this->receiverInstance= null;
 
   public function deleteConversation($conversationId)
   {
-      // Find the conversation to delete
+      // Find the conversation by ID
       $conversation = Conversation::find($conversationId);
   
+      // Check if the conversation exists
       if ($conversation) {
           // Soft-delete the conversation
           $conversation->delete();
-  
-          // You can add additional logic if needed (e.g., notifications, confirmation, etc.)
-  
-          // Fetch updated conversation list
-        
-  
-          // You might want to emit an event or update the conversation list in the frontend here
+          $this->emit('conversationDeleted');
+      } else {
+          
+          session()->flash('error', 'Conversation not found.');
       }
   }
+  public function reloadPage()
+{
+    $this->deleteConversation(); // Call your deleteConversation method if needed
+
+    // Trigger the page reload using JavaScript
+    $this->emit('reload-page');
+}
 
 
   

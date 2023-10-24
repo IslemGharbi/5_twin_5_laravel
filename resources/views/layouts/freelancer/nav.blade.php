@@ -18,9 +18,9 @@
                             </li>
 
                             @if (Auth::user())
-                                <li class="nav-item">
+                                {{-- <li class="nav-item">
                                     <a class="nav-link" href="{{ route('orders') }}">Your Orders</a>
-                                </li>
+                                </li> --}}
                                   <li class="nav-item">
                                 <a class="nav-link" href="{{ route('chat') }}">chat</a>
                             </li>
@@ -28,29 +28,12 @@
                                 <a class="nav-link" href="{{ route('users') }}">users</a>
                             </li>
 
-                                <li class="nav-item dropdown dropdown-slide">
-                                    <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        Freelancing <span><i class="fa fa-angle-down"></i></span>
-                                    </a>
-                                    <!-- Dropdown list -->
-                                    <div class="dropdown-menu">
-                                        @if (!Auth::user()->freelancer)
-
-                                            <form method="POST" action="{{ route('freelancer.store') }}">
-                                                @csrf
-                                                <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                                <button class="dropdown-item" type="submit">Join As a
-                                                    Freelancer</button>
-                                            </form>
-                                        @else
-                                            <a class="dropdown-item" href="{{ route('gig.create.view') }}">Add
-                                                Gigs</a>
-                                            <a class="dropdown-item" href="{{ route('order.list') }}">View
-                                                Orders</a>
-                                        @endif
-                                    </div>
-                                </li>
+                 
+                            @endif
+                            @if (Auth::user())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('gig.create.view') }}">Gigs</a>
+                            </li>
                             @endif
                             @if (Auth::user())
                             <li class="nav-item">
@@ -62,11 +45,11 @@
                                 <a class="nav-link" href="{{ route('documentation.index') }}">documentation</a>
                             </li>
                             @endif
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a class="nav-link" href="{{ route('about') }}">About Us</a>
-                            </li>
+                            </li> --}}
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('contact') }}">Contact Us</a>
+                                <a class="nav-link" href="{{ route('contact') }}">Contact</a>
                             </li>
 
                             @if (Auth::user() && Auth::user()->email !== 'admin@email.com')
@@ -92,11 +75,10 @@
                                 @if (Auth::user())
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
-                                        <button class="nav-link text-white add-button" type="submit"><i
-                                                class="fa fa-sign-out"></i> Logout</button>
+                                        <button class="nav-link login-button" type="submit"> Logout</button>
                                     </form>
                                 @else
-                                    <a class="nav-link login-button" href="{{ route('register') }}">Register</a>
+                                    <a class="btn btn-info" href="{{ route('register') }}">Register</a>
                                 @endif
                             </li>
                         </ul>

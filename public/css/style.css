@@ -115,6 +115,27 @@ label {
     color: #848484;
     font-size: 24px;
 }
+/* Custom CSS for the vertical navigation */
+.vertical-navbar .navbar {
+    flex-direction: column;
+}
+
+.vertical-navbar .navbar-toggler {
+    display: none; /* Hide the toggle button for vertical navigation */
+}
+
+/* Ensure the navbar takes the full height of the parent container */
+.vertical-navbar .navbar-collapse {
+    height: 100%;
+    align-items: flex-start; /* Align menu items at the top */
+}
+
+.vertical-navbar .navbar-nav {
+    flex-direction: column;
+    text-align: center; /* Center text in vertical menu items */
+    width: 100%;
+}
+
 
 @media (max-width: 768px) {
     .nav-pills.transparent .nav-link {

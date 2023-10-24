@@ -46,7 +46,7 @@
                                 }
                                 
                             @endphp
-        <button wire:click="deleteConversation({{ $conversation->id }})">Delete</button>
+        <button class="btn btn-danger" onclick="reloadPage()" wire:click="deleteConversation({{ $conversation->id }})">Delete</button>
 
                         </div>
                     </div>
@@ -66,3 +66,8 @@
 
 
 
+<script>
+    Livewire.on('reload-page', () => {
+        window.location.reload();
+    });
+</script>
