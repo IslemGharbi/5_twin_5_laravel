@@ -51,6 +51,11 @@
                                 <a class="nav-link" href="{{ route('notes.index') }}">notes</a>
                             </li>
                             @endif
+                            @if (Auth::user())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('documentation.index') }}">documentation</a>
+                            </li>
+                            @endif
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('about') }}">About Us</a>
                             </li>

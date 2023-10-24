@@ -19,6 +19,8 @@ use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\NotesController;
+use App\Http\Controllers\DocumentationController;
+
 
 
 
@@ -38,7 +40,9 @@ Route::get('/notes', [NotesController::class, 'index'])->name('notes.index');
 Route::delete('/notes/{id}', [NotesController::class, 'destroy'])->name('notes.destroy');
 Route::put('/notes/{id}', [NotesController::class, 'update'])->name('notes.update');
 
-
+//documentation 
+Route::get('/documentation', [DocumentationController::class, 'index'])->name('documentation.index');;
+Route::post('/documentation/', [DocumentationController::class, 'store'])->name('documentation.store');
 
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/checkout/{id}txn{amount}', [CheckoutController::class, 'checkout'])->name('checkout.new');
