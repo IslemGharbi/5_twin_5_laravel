@@ -48,8 +48,25 @@ class SendMessage extends Component
 
     $this->validate($rules, $messages);
     
-        // ... the rest of your code ...
+    $this->createdMessage = Message::create([
+        'conversation_id' => $this->selectedConversation->id,
+        'sender_id' => auth()->id(),
+        'receiver_id' => $this->receiverInstance->id,
+        'body' => $this->body,
+
+    ]);
+
+    $this->selectedConversation->last_time_message = $this->createdMessage->created_at;
+    $this->selectedConversation->save();
+    $this->emitTo('chat.chatbox', 'pushMessage', $this->createdMessage->id);
     
+      //reshresh coversation list 
+      $this->emitTo('chat.chat-list', 'refresh');
+      $this->reset('body');
+
+      $this->emitSelf('dispatchMessageSent');
+      // dd($this->body);
+      # code..
         // Reset the message body
         $this->reset('body');
     }
@@ -57,7 +74,8 @@ class SendMessage extends Component
 
     public function dispatchMessageSent()
     {
-        // Broadcast the message sent event
+        broadcast(new MessageSent(Auth()->user(), $this->createdMessage, $this->selectedConversation, $this->receiverInstance));
+        # code...
     }
 
     public function render()

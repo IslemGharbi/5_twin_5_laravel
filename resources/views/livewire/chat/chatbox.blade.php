@@ -37,7 +37,7 @@
 
         <div class="chatbox_body">
             @foreach ($messages as $message)
-                <div class="msg_body  {{ auth()->id() == $message->sender_id ? 'msg_body_me' : 'msg_body_receiver' }}"
+                <div class="msg_body  {{ auth()->id() == $message->sender_id ? 'msg_body_receiver' : 'msg_body_me' }}"
                     style="width:80%;max-width:80%;max-width:max-content">
 
                     {{ $message->body }}
