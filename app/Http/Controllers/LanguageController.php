@@ -5,19 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Language;
 use App\Models\Freelancer;
+use Validator;
 
 class LanguageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -26,7 +17,7 @@ class LanguageController extends Controller
     public function create($id)
     {
         $freelancer = Freelancer::find($id);
-        return view('language.create',compact('freelancer'));
+        return view('language.create', compact('freelancer'));
     }
 
     /**
@@ -37,22 +28,26 @@ class LanguageController extends Controller
      */
     public function store(Request $request)
     {
+        // Define validation rules
+        $rules = [
+            'name' => 'required',
+            'level' => 'required',
+        ];
+
+        // Create a validator with the rules
+        $validator = Validator::make($request->all(), $rules);
+
+        // Check if validation fails
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
         $language = new Language();
         $language->name = $request->name;
         $language->level = $request->level;
         $language->freelancer_id = $request->freelancer_id;
         $language->save();
-        return redirect()->route('language.create',['id'=>$request->freelancer_id]);
-    }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return redirect()->route('language.create', ['id' => $request->freelancer_id]);
     }
 
     /**
@@ -63,7 +58,8 @@ class LanguageController extends Controller
      */
     public function edit($id)
     {
-        //
+        $language = Language::find($id);
+        return view('language.edit', compact('language'));
     }
 
     /**
@@ -75,17 +71,24 @@ class LanguageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
+        // Define validation rules
+        $rules = [
+            'name' => 'required',
+            'level' => 'required',
+        ];
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        // Create a validator with the rules
+        $validator = Validator::make($request->all(), $rules);
+
+        // Check if validation fails
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $language = Language::find($id);
+        $language->name = $request->name;
+        $language->level = $request->level;
+        $language->save();
+        return redirect()->route('language.create', ['id' => $language->freelancer_id]);
     }
 }

@@ -58,7 +58,16 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('contact') }}">Contact Us</a>
                             </li>
+
+                            @if (Auth::user() && Auth::user()->email !== 'admin@email.com')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('reclamationsindex') }}">Mes_réclamations</a>
+                            </li>
+                            @endif
+
+
                             
+
                         </ul>
                         <ul class="navbar-nav ml-auto mt-10">
                             <li class="nav-item">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Skill;
 use App\Models\Freelancer;
+use Validator;
 
 class SkillController extends Controller
 {
@@ -21,12 +22,13 @@ class SkillController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function create($id)
     {
         $freelancer = Freelancer::find($id);
-        return view('skill.create',compact('freelancer'));
+        return view('skill.create', compact('freelancer'));
     }
 
     /**
@@ -37,12 +39,28 @@ class SkillController extends Controller
      */
     public function store(Request $request)
     {
+        // Define validation rules
+        $rules = [
+            'name' => 'required',
+            'level' => 'required',
+        ];
+
+        // Create a validator with the rules
+        $validator = Validator::make($request->all(), $rules);
+
+        // Check if validation fails
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // If validation succeeds, save the skill
         $skill = new Skill();
         $skill->name = $request->name;
         $skill->level = $request->level;
         $skill->freelancer_id = $request->freelancer_id;
         $skill->save();
-        return redirect()->route('skill.create',['id'=>$request->freelancer_id]);
+
+        return redirect()->route('skill.create', ['id' => $request->freelancer_id]);
     }
 
     /**
@@ -53,7 +71,8 @@ class SkillController extends Controller
      */
     public function show($id)
     {
-        //
+        $skill = Skill::find($id);
+        return view('skill.show', compact('skill'));
     }
 
     /**
@@ -64,7 +83,8 @@ class SkillController extends Controller
      */
     public function edit($id)
     {
-        //
+        $skill = Skill::find($id);
+        return view('skill.edit', compact('skill'));
     }
 
     /**
@@ -76,7 +96,27 @@ class SkillController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Define validation rules
+        $rules = [
+            'name' => 'required',
+            'level' => 'required',
+        ];
+
+        // Create a validator with the rules
+        $validator = Validator::make($request->all(), $rules);
+
+        // Check if validation fails
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // If validation succeeds, update the skill
+        $skill = Skill::find($id);
+        $skill->name = $request->name;
+        $skill->level = $request->level;
+        $skill->save();
+
+        return redirect()->route('skill.create', ['id' => $skill->freelancer_id]);
     }
 
     /**
@@ -87,6 +127,9 @@ class SkillController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $skill = Skill::find($id);
+        $freelancer_id = $skill->freelancer_id;
+        $skill->delete();
+        return redirect()->route('skill.create', ['id' => $freelancer_id]);
     }
 }

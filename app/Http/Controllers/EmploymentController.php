@@ -3,41 +3,49 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Models\Employment;
 use App\Models\Freelancer;
+use Validator;
 
 class EmploymentController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function create($id)
     {
         $freelancer = Freelancer::find($id);
-        return view('employment.create',compact('freelancer'));
+        $employments = Employment::where('freelancer_id', $id)->get();
+        return view('employment.create', compact('freelancer', 'employments'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http Response
      */
     public function store(Request $request)
     {
+        // Define validation rules
+        $rules = [
+            'company' => 'required',
+            'period' => 'required|numeric',
+            'title' => 'required',
+            'status' => 'required',
+        ];
+
+        // Create a validator with the rules
+        $validator = Validator::make($request->all(), $rules);
+
+        // Check if validation fails
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
         $employment = new Employment();
         $employment->company = $request->company;
         $employment->period = $request->period;
@@ -45,18 +53,8 @@ class EmploymentController extends Controller
         $employment->status = $request->status;
         $employment->freelancer_id = $request->freelancer_id;
         $employment->save();
-        return redirect()->route('employment.create',['id'=>$request->freelancer_id]);
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return redirect()->route('employment.create', ['id' => $request->freelancer_id]);
     }
 
     /**
@@ -67,7 +65,8 @@ class EmploymentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $employment = Employment::find($id);
+        return view('employment.edit', compact('employment'));
     }
 
     /**
@@ -79,17 +78,29 @@ class EmploymentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
+        // Define validation rules
+        $rules = [
+            'company' => 'required',
+            'period' => 'required|numeric',
+            'title' => 'required',
+            'status' => 'required',
+        ];
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        // Create a validator with the rules
+        $validator = Validator::make($request->all(), $rules);
+
+        // Check if validation fails
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $employment = Employment::find($id);
+        $employment->company = $request->company;
+        $employment->period = $request->period;
+        $employment->title = $request->title;
+        $employment->status = $request->status;
+        $employment->save();
+
+        return redirect()->route('employment.create', ['id' => $employment->freelancer_id]);
     }
 }

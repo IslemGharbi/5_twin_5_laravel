@@ -18,8 +18,13 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CheckoutController;
+
+use App\Http\Controllers\ReclamationController;
+use App\Http\Controllers\CertificatesController;
+
 use App\Http\Livewire\chat\CreateChat;
 use App\Http\Livewire\chat\Main;
+
 
 
 
@@ -86,7 +91,7 @@ Route::post('/searchresult/category', [GigController::class, 'categorySearch'])-
 Route::get('/search/category', [GigController::class, 'categorySearch'])->name('category.search');
 Route::middleware(['auth:sanctum', 'verified'])->get('/gig/edit/{id}', [GigController::class, 'edit'])->name('gig.edit');
 Route::middleware(['auth:sanctum', 'verified'])->put('/gig/update/{id}', [GigController::class, 'update'])->name('gig.update');
-Route::middleware(['auth:sanctum', 'verified'])->get('/gig/delete/{id}', [GigController::class, 'destroy'])->name('gig.delete');
+Route::middleware(['auth:sanctum', 'verified'])->delete('/gig/delete/{id}', [GigController::class, 'destroy'])->name('gig.delete');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/order/list', [OrderController::class, 'index'])->name('order.list');
 Route::middleware(['auth:sanctum', 'verified'])->get('/order/create/{id}', [OrderController::class, 'create'])->name('order.create');
@@ -108,15 +113,44 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/thumbnail/store', [Thumb
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/skill/create/{id}', [SkillController::class, 'create'])->name('skill.create');
 Route::middleware(['auth:sanctum', 'verified'])->post('/skill/store', [SkillController::class, 'store'])->name('skill.store');
+Route::middleware(['auth:sanctum', 'verified'])->get('/skill/show/{id}', [SkillController::class, 'show'])->name('skill.show');
+Route::middleware(['auth:sanctum', 'verified'])->get('/skill/edit/{id}', [SkillController::class, 'edit'])->name('skill.edit');
+Route::middleware(['auth:sanctum', 'verified'])->put('/skill/update/{id}', [SkillController::class, 'update'])->name('skill.update');
+Route::middleware(['auth:sanctum', 'verified'])->delete('/skill/destroy/{id}', [SkillController::class, 'destroy'])->name('skill.destroy');
+Route::middleware(['auth:sanctum', 'verified'])->get('/skill/{id}/rate', [SkillRatingController::class, 'create'])->name('skill.rate');
+Route::middleware(['auth:sanctum', 'verified'])->post('/skill/{id}/rate', [SkillRatingController::class, 'store'])->name('skill.rate.store');
+Route::middleware(['auth:sanctum', 'verified'])->get('/skill/{id}/rating/{ratingId}', [SkillRatingController::class, 'show'])->name('skill.rate.show');
+Route::middleware(['auth:sanctum', 'verified'])->get('/skill/{id}/rating/{ratingId}/edit', [SkillRatingController::class, 'edit'])->name('skill.rate.edit');
+Route::middleware(['auth:sanctum', 'verified'])->put('/skill/{id}/rating/{ratingId}', [SkillRatingController::class, 'update'])->name('skill.rate.update');
+Route::middleware(['auth:sanctum', 'verified'])->delete('/skill/{id}/rating/{ratingId}', [SkillRatingController::class, 'destroy'])->name('skill.rate.destroy');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/certificates/show/{id}', [CertificatesController::class, 'show'])->name('certificates.show');
+Route::middleware(['auth:sanctum', 'verified'])->get('/certificates/edit/{id}', [CertificatesController::class, 'edit'])->name('certificates.edit');
+Route::middleware(['auth:sanctum', 'verified'])->put('/certificates/update/{id}', [CertificatesController::class, 'update'])->name('certificates.update');
+Route::middleware(['auth:sanctum', 'verified'])->delete('/certificates/destroy/{id}', [CertificatesController::class, 'destroy'])->name('certificates.destroy');
+Route::middleware(['auth:sanctum', 'verified'])->get('/certificates/create/{skillId}', [CertificatesController::class, 'create'])->name('certificates.create');
+Route::middleware(['auth:sanctum', 'verified'])->post('/certificates', [CertificatesController::class, 'store'])->name('certificates.store');
+Route::middleware(['auth:sanctum', 'verified'])->get('/certificates', [CertificatesController::class, 'index'])->name('certificates.index');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/language/create/{id}', [LanguageController::class, 'create'])->name('language.create');
 Route::middleware(['auth:sanctum', 'verified'])->post('/language/store', [LanguageController::class, 'store'])->name('language.store');
+Route::middleware(['auth:sanctum', 'verified'])->get('/language/show/{id}', [LanguageController::class, 'show'])->name('language.show');
+Route::middleware(['auth:sanctum', 'verified'])->get('/language/edit/{id}', [LanguageController::class, 'edit'])->name('language.edit');
+Route::middleware(['auth:sanctum', 'verified'])->put('/language/update/{id}', [LanguageController::class, 'update'])->name('language.update');
+Route::middleware(['auth:sanctum', 'verified'])->delete('/language/destroy/{id}', [LanguageController::class, 'destroy'])->name('language.destroy');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/qualification/create/{id}', [QualificationController::class, 'create'])->name('qualification.create');
 Route::middleware(['auth:sanctum', 'verified'])->post('/qualification/store', [QualificationController::class, 'store'])->name('qualification.store');
+Route::middleware(['auth:sanctum', 'verified'])->get('/qualifications/edit/{id}', [QualificationController::class, 'edit'])->name('qualification.edit');
+Route::middleware(['auth:sanctum', 'verified'])->put('/qualifications/{id}', [QualificationController::class, 'update'])->name('qualification.update');
+Route::middleware(['auth:sanctum', 'verified'])->delete('/qualifications/{id}', [QualificationController::class, 'destroy'])->name('qualification.destroy');
+
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/employment/create/{id}', [EmploymentController::class, 'create'])->name('employment.create');
 Route::middleware(['auth:sanctum', 'verified'])->post('/employment/store', [EmploymentController::class, 'store'])->name('employment.store');
+Route::middleware(['auth:sanctum', 'verified'])->get('/employment/edit/{id}', [EmploymentController::class, 'edit'])->name('employment.edit');
+Route::middleware(['auth:sanctum', 'verified'])->put('/employment/{id}', [EmploymentController::class, 'update'])->name('employment.update');
+Route::middleware(['auth:sanctum', 'verified'])->delete('/employment/{id}', [EmploymentController::class, 'destroy'])->name('employment.destroy');
 
 // Route::middleware(['auth:sanctum', 'verified'])->get('/admin', function () {
     //     return view('dashboard');
@@ -125,3 +159,43 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/employment/store', [Empl
     Route::middleware(['auth:sanctum', 'verified'])->get('/admin', [CategoryController::class, 'index'])->name('dashboard');
     Route::middleware(['auth:sanctum', 'verified'])->post('/category/store', [CategoryController::class, 'store'])->name('category.store');
     Route::middleware(['auth:sanctum', 'verified'])->post('/sub_category/store', [SubCategoryController::class, 'store'])->name('sub_category.store');
+
+
+//reclamation routes 
+
+Route::get('/reclamations', [ReclamationController::class, 'listReclamations'])->name('reclamationsindex');
+Route::get('/reclamations/create', [ReclamationController::class, 'create'])->name('reclamationscreate');
+Route::middleware(['auth'])->post('/reclamations', [ReclamationController::class, 'store'])->name('reclamations.store');
+Route::delete('/reclamations/{id}',  [ReclamationController::class, 'destroy'])->name('reclamation.destroy');
+Route::get('/reclamations/{id}/edit', [ReclamationController::class, 'edit'])->name('reclamationsedit');
+Route::put('/reclamations/{id}',  [ReclamationController::class, 'update'])->name('reclamations.update');
+Route::get('admin/reclamations', [ReclamationController::class, 'toutelistReclamations'])->name('reclamationsindexall');
+Route::delete('admin/reclamations/{id}',  [ReclamationController::class, 'Adestroy'])->name('reclamation.Adestroy');
+
+
+//responces routes
+Route::get('/{Reclamationid}/reponses/create', [ReclamationController::class, 'createR'])->name('responsescreate');
+Route::post('/reclamations/{Reclamationid}/reponses', [ReclamationController::class, 'storeR'])->name('reponses.store');
+Route::delete('/reponses/{idReponse}', [ReclamationController::class, 'destroyR'])->name('reponses.destroy');
+Route::get('/reclamations/{Reclamationid}/reponses/{id}/edit', [ReclamationController::class, 'editR'])->name('reponsesedit');
+Route::put('/reclamations/{Reclamationid}/reponses/{id}', [ReclamationController::class, 'updateR'])->name('reponses.update');
+
+// Edit Subcategory
+Route::middleware(['auth:sanctum', 'verified'])->get('/subcategories/{subcategory}/edit',[SubCategoryController::class, 'edit'])->name('subcategories.edit');
+
+// Delete Subcategory
+Route::middleware(['auth:sanctum', 'verified'])->delete('/subcategories/{subcategory}', [SubCategoryController::class, 'destroy'])->name('subcategories.destroy');
+
+
+Route::middleware(['auth:sanctum', 'verified'])->put('/sub_category/{id}', [SubCategoryController::class, 'update'])->name('sub_category.update');
+
+
+// Edit a category
+Route::middleware(['auth:sanctum', 'verified'])->get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+
+// Update a category
+Route::middleware(['auth:sanctum', 'verified'])->put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
+
+// Delete a category
+Route::middleware(['auth:sanctum', 'verified'])->delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+
