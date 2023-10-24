@@ -58,7 +58,9 @@
                                         echo'<i class="bi bi-check2 status_tick "></i> ';
                                     }
                                     else {
-                                        echo'<i class="bi bi-check2-all text-primary  "></i> ';
+                                        echo'seen ✔
+
+';
                                     }
 
                           }

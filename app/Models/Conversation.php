@@ -23,4 +23,14 @@ class Conversation extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($conversation) {
+            // When a conversation is deleted, delete its related messages
+            $conversation->messages()->delete();
+        });
+    }
 }

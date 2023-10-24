@@ -70,6 +70,28 @@ $this->receiverInstance= null;
       # code...
   }
 
+
+  public function deleteConversation($conversationId)
+  {
+      // Find the conversation to delete
+      $conversation = Conversation::find($conversationId);
+  
+      if ($conversation) {
+          // Soft-delete the conversation
+          $conversation->delete();
+  
+          // You can add additional logic if needed (e.g., notifications, confirmation, etc.)
+  
+          // Fetch updated conversation list
+        
+  
+          // You might want to emit an event or update the conversation list in the frontend here
+      }
+  }
+
+
+  
+
     public function render()
     {
         return view('livewire.chat.chat-list');

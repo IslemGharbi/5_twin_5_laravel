@@ -49,6 +49,8 @@ class CreateChat extends Component
     }
 
 
+
+
     public function render()
     {
         $this->users = User::where('id', '!=', auth()->user()->id)->get();

@@ -48,7 +48,7 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/checkout/', [CheckoutCon
 
 Route::get('/users', CreateChat::class)->name('users');
 Route::get('/chat{key?}', Main::class)->name('chat');
-
+Route::delete('/delete-message/{id}', 'MessageController@delete');
 
 // end
 

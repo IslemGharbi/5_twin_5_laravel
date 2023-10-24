@@ -44,8 +44,9 @@
                                  . count($conversation->messages->where('read',0)->where('receiver_id',Auth()->user()->id)) .'</div> ';
 
                                 }
-
+                                
                             @endphp
+        <button wire:click="deleteConversation({{ $conversation->id }})">Delete</button>
 
                         </div>
                     </div>
@@ -62,3 +63,6 @@
 
     </div>
 </div>
+
+
+
