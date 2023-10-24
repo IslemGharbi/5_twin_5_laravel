@@ -73,4 +73,14 @@ class User extends Authenticatable
     public function comment(){
         return $this->hasMany(Comment::class);        
     }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }

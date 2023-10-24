@@ -21,7 +21,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('orders') }}">Your Orders</a>
                                 </li>
-
+                                <li class="nav-item">
+            <a class="nav-link" href="{{ route('events.cardEvent') }}">Events</a>
+        </li>
                                 <li class="nav-item dropdown dropdown-slide">
                                     <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false">
