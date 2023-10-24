@@ -33,7 +33,7 @@ class CreateChat extends Component
         $createdConversation->last_time_message= $createdMessage->created_at;
         $createdConversation->save();
 
-        dd('conversation created !');
+        dd('conversation created succesfully !');
         dd('saved');
 
 
