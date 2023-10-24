@@ -29,8 +29,11 @@
     @foreach($documentation as $documentation)
 <div class="col-md-6 col-lg-12 col-xl-6">
 <div class="freelance-widget widget-author">
+
 <div class="freelance-content">
 <a data-bs-toggle="modal" href="#rating" class="favourite"><i class="fas fa-star"></i></a>
+
+
 <div class="author-heading">
 <div class="profile-img">
 <a href="#">
@@ -61,8 +64,9 @@
 <a href="{{ asset('/storage/'.$documentation->file) }}" target="_blank">Click on me</a>
 </li>
 <li>
-<h3 class="counter-value"><span class="jobtype">job</span></h3>
-<h5>job</h5>
+    <a data-bs-toggle="modal" href="#rating"  class="delete" style="color: rgb(220, 87, 20)"><i class="fas fa-trash">delete</i></a>
+    <br>
+    <a data-bs-toggle="modal" href="#rating" class="edit" style="color: rgb(20, 203, 220)"><i class="fas fa-edit">edit</i></a>
 </li>
 </ul>
 </div>
