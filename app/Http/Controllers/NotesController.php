@@ -143,4 +143,5 @@ class NotesController extends Controller
     $note->delete();
 
     return redirect('/notes')->with('success', 'Note deleted successfully.');
-}}
+}
+}

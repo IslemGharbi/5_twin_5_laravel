@@ -24,8 +24,10 @@
         <i class="fas fa-edit"></i> add
     </button>
 <div class="col-md-12 col-lg-8 col-xl-9">
-
+ @csrf
 <div class="row">
+   
+
     @foreach($documentation as $documentation)
 <div class="col-md-6 col-lg-12 col-xl-6">
 <div class="freelance-widget widget-author">
@@ -64,9 +66,13 @@
 <a href="{{ asset('/storage/'.$documentation->file) }}" target="_blank">Click on me</a>
 </li>
 <li>
-    <a data-bs-toggle="modal" href="#rating"  class="delete" style="color: rgb(220, 87, 20)"><i class="fas fa-trash">delete</i></a>
-    <br>
-    <a data-bs-toggle="modal" href="#rating" class="edit" style="color: rgb(20, 203, 220)"><i class="fas fa-edit">edit</i></a>
+    
+    <a href="#" class="delete" style="color: rgb(220, 87, 20)" data-toggle="modal" data-target="#deleteModal" onclick="deletedoc({{ $documentation->id }})">
+        <i class="fas fa-trash"></i> Delete
+    </a>
+    
+        <br>
+    <a  href="#rating" data-toggle="modal" data-target="#editdocumentationModal" class="edit" style="color: rgb(20, 203, 220)"><i class="fas fa-edit">edit</i></a>
 </li>
 </ul>
 </div>
@@ -75,9 +81,10 @@
 <a href="{{ asset('/storage/'.$documentation->file) }}" class="btn-cart" tabindex="-1">see the doc</a>
 </div>
 </div>
+
 </div>
 @endforeach
-
+@include('documentation.edit')
 </div>
 
 
@@ -101,6 +108,28 @@
 
 <script src="assets/js/profile-settings.js"></script>
 <script src="assets/js/script.js"></script>
+
+<script>
+    function deletedoc(id) {
+        if (confirm('Are you sure you want to delete this documentation?')) {
+            // Send an AJAX request to delete the documentation
+            fetch(`/documentation/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(() => {
+                // Documentation deleted successfully, refresh the page
+                location.reload(); // Reload the window
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    }
+</script>
 
 
 

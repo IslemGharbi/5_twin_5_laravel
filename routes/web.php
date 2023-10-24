@@ -41,8 +41,10 @@ Route::delete('/notes/{id}', [NotesController::class, 'destroy'])->name('notes.d
 Route::put('/notes/{id}', [NotesController::class, 'update'])->name('notes.update');
 
 //documentation 
-Route::get('/documentation', [DocumentationController::class, 'index'])->name('documentation.index');;
+Route::get('/documentation', [DocumentationController::class, 'index'])->name('documentation.index');
 Route::post('/documentation/', [DocumentationController::class, 'store'])->name('documentation.store');
+Route::delete('/documentation/{id}', [DocumentationController::class , 'destroy'])->name('documentation.destroy');
+
 
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/checkout/{id}txn{amount}', [CheckoutController::class, 'checkout'])->name('checkout.new');
