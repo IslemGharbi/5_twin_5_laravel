@@ -8,10 +8,12 @@
                 </button>
             </div>
             <div class="modal-body">
-                <!-- Add Notes Form -->
-                <form method="POST" action="{{ route('documentation.store') }}" enctype="multipart/form-data">
-                    <form>
+                <!-- Add doc Form -->
+                <form method="POST" action="{{ route('documentation.update', ['id' => $documentation->id]) }}" enctype="multipart/form-data">
                     @csrf 
+                    @method('PUT') 
+                    <form>
+                    
                     <div class="form-group">
                         <label for="picture" style="color: #f9a556;">File</label>
                         <input type="file" class="form-control" name="file" id="file">
@@ -31,6 +33,28 @@
     $(document).ready(function () {
         $('#animated-text').click(function () {
             $('#editdocumentationModal').modal('show');
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#animated-text').click(function () {
+            $('#editdocumentationModal').modal('show');
+        });
+
+        $('#editdocumentationModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var id = button.data('id');
+            var title = button.data('title');
+            var file = button.data('file');
+
+            // Populate the form fields with the existing data
+            $('#title').val(title);
+            $('#file').val(file);
+
+            // Update the form action to include the documentation ID
+            var form = $('#editdocumentationModal').find('form');
+            form.attr('action', form.attr('action') + '/' + id);
         });
     });
 </script>

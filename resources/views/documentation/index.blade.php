@@ -72,8 +72,10 @@
     </a>
     
         <br>
-    <a  href="#rating" data-toggle="modal" data-target="#editdocumentationModal" class="edit" style="color: rgb(20, 203, 220)"><i class="fas fa-edit">edit</i></a>
-</li>
+        <a href="#" class="edit" data-toggle="modal" data-target="#editdocumentationModal" data-id="{{ $documentation->id }}" data-title="{{ $documentation->title }}" data-file="{{ $documentation->file }}">
+            <i class="fas fa-edit"></i> Edit
+        </a>
+        </li>
 </ul>
 </div>
 </div>
