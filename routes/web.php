@@ -38,16 +38,16 @@ use App\Http\Controllers\MailController;
 */
 //note routes 
 Route::middleware(['auth:sanctum', 'verified'])->post('/notes/store', [NotesController::class, 'store'])->name('notes.create');
-Route::get('/notes', [NotesController::class, 'index'])->name('notes.index');
-Route::delete('/notes/{id}', [NotesController::class, 'destroy'])->name('notes.destroy');
-Route::put('/notes/{id}', [NotesController::class, 'update'])->name('notes.update');
-Route::get('/notes/check-expired-notes', [NotesController::class, 'checkExpiredNotes']  );
+Route::middleware(['auth:sanctum', 'verified'])->get('/notes', [NotesController::class, 'index'])->name('notes.index');
+Route::middleware(['auth:sanctum', 'verified'])->delete('/notes/{id}', [NotesController::class, 'destroy'])->name('notes.destroy');
+Route::middleware(['auth:sanctum', 'verified'])->put('/notes/{id}', [NotesController::class, 'update'])->name('notes.update');
+Route::middleware(['auth:sanctum', 'verified'])->get('/notes/check-expired-notes', [NotesController::class, 'checkExpiredNotes']  );
 
 //documentation 
-Route::get('/documentation', [DocumentationController::class, 'index'])->name('documentation.index');
-Route::post('/documentation/', [DocumentationController::class, 'store'])->name('documentation.store');
-Route::delete('/documentation/{id}', [DocumentationController::class , 'destroy'])->name('documentation.destroy');
-Route::put('/documentation/{id}', [DocumentationController::class, 'update'])->name('documentation.update');
+Route::middleware(['auth:sanctum', 'verified'])->get('/documentation', [DocumentationController::class, 'index'])->name('documentation.index');
+Route::middleware(['auth:sanctum', 'verified'])->post('/documentation/', [DocumentationController::class, 'store'])->name('documentation.store');
+Route::middleware(['auth:sanctum', 'verified'])->delete('/documentation/{id}', [DocumentationController::class , 'destroy'])->name('documentation.destroy');
+Route::middleware(['auth:sanctum', 'verified'])->put('/documentation/{id}', [DocumentationController::class, 'update'])->name('documentation.update');
 
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/checkout/{id}txn{amount}', [CheckoutController::class, 'checkout'])->name('checkout.new');

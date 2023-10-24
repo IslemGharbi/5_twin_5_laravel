@@ -28,7 +28,15 @@ class NotesController extends Controller
 
     public function store(Request $request)
     {
-        // Validate and save the note
+
+
+ // Validate and save the note
+    $request->validate([
+        'subject' => 'required',
+        'details' => 'required|min:20', // Minimum 20 characters
+        'deadline' => 'required|date', // Assuming 'deadline' is a date field
+    ]);
+        
         $note = new Note;
         $note->subject = $request->input('subject');
         $note->details = $request->input('details');
@@ -45,7 +53,7 @@ class NotesController extends Controller
             ]);
     
             // The result should be an object, not an array
-    
+           
             // Create a new NotePicture record
             $picture = new NotePicture;
             $picture->note_id = $note->id; // Associate the picture with the note
@@ -63,12 +71,12 @@ class NotesController extends Controller
     {
         // Find the note to be updated
         $note = Note::findOrFail($id);
-    
+       
         // Validate the request data
         $this->validate($request, [
             'subject' => 'required',
-            'details' => 'required',
-            'deadline' => 'required',
+            'details' => 'required|min:20',
+            'deadline' => 'required'
         ]);
     
         // Update the note with the new data
